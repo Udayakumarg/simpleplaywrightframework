@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "workspaces": [
+    "framework",
+    "project-orangehrm"
+  ],
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "typescript": "^5.9.3",
+    "tsconfig-paths": "^4.2.0",
+    "@types/node": "^25.2.3",
+    "rimraf": "^6.1.2"
+  },
+  "scripts": {
+    "setup": "npm install",
+    "build:framework": "npm run build --workspace framework",
+    "build:test": "npm run build --workspace project-orangehrm",
+    "build:all": "npm run build:framework && npm run build:test",
+    "test": "npm run test --workspace project-orangehrm",
+    "ci": "npm run setup && npm run build:all && npm run test"
+  }
+}

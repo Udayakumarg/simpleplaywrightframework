@@ -1,0 +1,22 @@
+{
+  "name": "project-orangehrm",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "npx rimraf node_modules package-lock.json dist .cache",
+    "reinstall": "npm install",
+    "compile": "tsc -p tsconfig.json",
+    "build": "npm run clean && npm run reinstall && npm run compile",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "@framework/fixtures": "file:../framework"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.2.3",
+    "rimraf": "^6.1.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
+  }
+}

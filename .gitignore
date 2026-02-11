@@ -1,0 +1,39 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+.pnpm-debug.log
+
+# TypeScript build output
+dist/
+build/
+out/
+
+# Playwright test artifacts
+test-results/
+playwright-report/
+blob-report/
+trace.zip
+
+# Environment / secrets
+.env
+.env.*
+*.local
+
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Coverage
+coverage/
+*.lcov
+
+# Logs
+logs/
+*.log

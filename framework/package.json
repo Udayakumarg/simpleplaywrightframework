@@ -1,0 +1,13 @@
+{
+  "name": "@framework/fixtures",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf dist .cache",
+    "build": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}

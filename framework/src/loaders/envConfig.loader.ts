@@ -1,0 +1,34 @@
+import fs from "fs";
+import path from "path";
+
+export interface EnvConfig {
+  baseUrl: string;
+  apiUrl?: string;
+  autoLaunch?: boolean;
+  timeout?: number;
+  retries?: number;
+  db?: Record<string, any>;
+}
+
+export function loadConfig(): EnvConfig {
+  const configPath = path.join(process.cwd(), "config", "environments.json");
+  if (!fs.existsSync(configPath)) {
+    throw new Error(`❌ environments.json not found at ${configPath}`);
+  }
+
+  const raw = fs.readFileSync(configPath, "utf-8");
+  const allConfig = JSON.parse(raw);
+
+  const envName = process.env.TEST_ENV || "qa";
+  const defaults = allConfig.defaults || {};
+  const envConfig = allConfig[envName]; // ✅ flat lookup
+
+  if (!envConfig) {
+    throw new Error(`❌ Environment '${envName}' not defined in environments.json`);
+  }
+  if (!envConfig.baseUrl) {
+    throw new Error(`❌ Environment '${envName}' missing baseUrl`);
+  }
+
+  return { ...defaults, ...envConfig };
+}

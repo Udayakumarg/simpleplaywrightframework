@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "rootDir": "tests",
+    "outDir": "dist",
+    "module": "CommonJS",
+    "target": "ESNext",
+    "strict": true
+  },
+  "include": ["tests/**/*.ts"]
+}
