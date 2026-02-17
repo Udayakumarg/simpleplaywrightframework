@@ -37,3 +37,4 @@ coverage/
 # Logs
 logs/
 *.log
+.cache/

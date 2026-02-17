@@ -30,5 +30,5 @@ export function loadTestData(testInfo: TestInfo, envName: string): any {
   if (parsed[envName]) {
     return parsed[envName] as any;
   }
-  return parsed as any;
+  return undefined;
 }
