@@ -9,9 +9,12 @@ export default defineConfig({
   projects: [
     {
       name: browserName,
+      // Run tests in headed mode
       use: {
         browserName,
         ...devices["Desktop Chrome"],
+        headless: false,
+        navigationTimeout: 20 * 1000,
       },
     },
   ],

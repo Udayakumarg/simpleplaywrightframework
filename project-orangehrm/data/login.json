@@ -2,7 +2,7 @@
   "dev": {
     "users": {
       "admin": { "username": "admin_dev", "password": "admin123" },
-      "employee": { "username": "emp_dev", "password": "emp123" }
+      "employee": { "username": "admin_dev", "password": "admin123" }
     }
   },
   "qa": {
