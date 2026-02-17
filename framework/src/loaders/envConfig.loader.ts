@@ -4,9 +4,6 @@ import path from "path";
 export interface EnvConfig {
   baseUrl: string;
   apiUrl?: string;
-  autoLaunch?: boolean;
-  timeout?: number;
-  retries?: number;
   db?: Record<string, any>;
 }
 
@@ -24,7 +21,9 @@ export function loadConfig(): EnvConfig {
   const envConfig = allConfig[envName]; // ✅ flat lookup
 
   if (!envConfig) {
-    throw new Error(`❌ Environment '${envName}' not defined in environments.json`);
+    throw new Error(
+      `❌ Environment '${envName}' not defined in environments.json`,
+    );
   }
   if (!envConfig.baseUrl) {
     throw new Error(`❌ Environment '${envName}' missing baseUrl`);
