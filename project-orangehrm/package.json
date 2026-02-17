@@ -7,7 +7,8 @@
     "reinstall": "npm install",
     "compile": "tsc -p tsconfig.json",
     "build": "npm run clean && npm run reinstall && npm run compile",
-    "test": "playwright test"
+    "test": "rimraf playwright-report && playwright test",
+    "report": "playwright show-report"
   },
   "dependencies": {
     "@framework/fixtures": "file:../framework"

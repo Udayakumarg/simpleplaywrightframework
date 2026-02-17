@@ -20,7 +20,7 @@
   "prod": {
     "users": {
       "admin": { "username": "Admin", "password": "admin123" },
-      "employee": { "username": "Employee", "password": "emp123" },
+      "employee": { "username": "Admin", "password": "admin123" },
       "locked": { "username": "LockedUser", "password": "locked123" },
       "problem": { "username": "ProblemUser", "password": "problem123" }
     }

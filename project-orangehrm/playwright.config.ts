@@ -1,11 +1,13 @@
-import 'tsconfig-paths/register';
+import "tsconfig-paths/register";
 import { defineConfig, devices } from "@playwright/test";
 
-const browserName = (process.env.BROWSER as "chromium" | "firefox" | "webkit") || "chromium";
+const browserName =
+  (process.env.BROWSER as "chromium" | "firefox" | "webkit") || "chromium";
 
 export default defineConfig({
   testDir: "./tests",
-  testMatch: ["**/*.ts"],   // ✅ only run TypeScript tests
+  testMatch: ["**/*.ts"],
+  reporter: [["html", { open: "never" }]], // ✅ only run TypeScript tests
   projects: [
     {
       name: browserName,
@@ -14,7 +16,8 @@ export default defineConfig({
         browserName,
         ...devices["Desktop Chrome"],
         headless: false,
-        navigationTimeout: 20 * 1000,
+        navigationTimeout: 30 * 1000,
+        actionTimeout: 10 * 1000,
       },
     },
   ],

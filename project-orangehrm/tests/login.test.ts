@@ -1,6 +1,7 @@
 import { test, expect } from "@framework/fixtures";
 
 test("login with valid Admin user", async ({ page, envConfig, td }) => {
+  console.log("Base URL is", envConfig.baseUrl);
   await page.goto(envConfig.baseUrl);
   await page.fill('input[name="username"]', td.users.admin.username);
   await page.fill('input[name="password"]', td.users.admin.password);
