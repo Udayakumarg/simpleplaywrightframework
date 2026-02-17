@@ -8,13 +8,14 @@ export const envConfigFixture = {
     use: (config: EnvConfig) => Promise<void>,
   ) => {
     const config = loadConfig();
-    console.log("🌐 Auto-launching:", config.baseUrl);
 
+    /*
     if (config.autoLaunch && config.baseUrl) {
       console.log(`🌐 Navigating to: ${config.baseUrl}`);
       await page.goto(config.baseUrl, { waitUntil: "domcontentloaded" });
       console.log("✅ Navigation complete");
     }
+    */
 
     await use(config);
   },

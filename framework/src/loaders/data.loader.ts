@@ -1,19 +1,12 @@
 import fs from "fs";
 import path from "path";
 import { TestInfo } from "@playwright/test";
-
-export function loadTestData(testInfo: TestInfo, envName: string): Record<string, any> {
+export function loadTestData(testInfo: TestInfo, envName: string): any {
   const projectRoot = process.cwd();
-
-  // Get relative path of test file under /tests
   const rel = path.relative(path.join(projectRoot, "tests"), testInfo.file);
-
-  // Strip .spec.ts or .test.ts → replace with .json
   const fileBase = path.basename(rel)
     .replace(/\.spec\.ts$/, "")
     .replace(/\.test\.ts$/, "");
-
-  // Preserve subfolder structure if any
   const dir = path.dirname(rel);
   const dataPath = path.join(projectRoot, "data", dir, `${fileBase}.json`);
 
@@ -33,9 +26,9 @@ export function loadTestData(testInfo: TestInfo, envName: string): Record<string
     throw new Error(`❌ Invalid JSON format in ${dataPath}`);
   }
 
-  // Return environment block if present, else whole object
+  // ✅ Force any here
   if (parsed[envName]) {
-    return parsed[envName];
+    return parsed[envName] as any;
   }
-  return parsed;
+  return parsed as any;
 }

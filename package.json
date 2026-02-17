@@ -6,17 +6,19 @@
   ],
   "devDependencies": {
     "@playwright/test": "^1.58.2",
-    "typescript": "^5.9.3",
-    "tsconfig-paths": "^4.2.0",
     "@types/node": "^25.2.3",
-    "rimraf": "^6.1.2"
+    "rimraf": "^6.1.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
   },
   "scripts": {
     "setup": "npm install",
+    "clean": "npm run clean --workspace framework && npm run clean --workspace project-orangehrm",
     "build:framework": "npm run build --workspace framework",
-    "build:test": "npm run build --workspace project-orangehrm",
-    "build:all": "npm run build:framework && npm run build:test",
+    "build:orangehrm": "npm install --workspace project-orangehrm && npm run compile --workspace project-orangehrm",
+    "build:all": "npm run build:framework && npm run build:orangehrm",
     "test": "npm run test --workspace project-orangehrm",
-    "ci": "npm run setup && npm run build:all && npm run test"
+    "ci": "npm run clean && npm run setup && npm run build:all && npm run test",
+    "report": "npx playwright show-report --workspace project-orangehrm"
   }
 }
