@@ -1,0 +1,64 @@
+{
+  "dev": [
+    {
+      "name": "Valid login One (dev)",
+      "url": "https://dev.orangehrm.local/",
+      "username": "DevAdmin",
+      "password": "DevPass123",
+      "expected": "success"
+    },
+    {
+      "name": "Invalid login One (dev)",
+      "url": "https://dev.orangehrm.local/",
+      "username": "WrongUser",
+      "password": "WrongPass",
+      "expected": "failure"
+    }
+  ],
+  "qa": [
+    {
+      "name": "Valid login (qa)",
+      "url": "https://qa.orangehrm.local/",
+      "username": "QaAdmin",
+      "password": "QaPass123",
+      "expected": "success"
+    },
+    {
+      "name": "Invalid login (qa)",
+      "url": "https://qa.orangehrm.local/",
+      "username": "WrongUser",
+      "password": "WrongPass",
+      "expected": "failure"
+    }
+  ],
+  "prod": [
+    {
+      "name": "Valid login (prod)",
+      "url": "https://opensource-demo.orangehrmlive.com/",
+      "username": "Admin",
+      "password": "admin123",
+      "expected": "success"
+    },
+    {
+      "name": "Invalid login (prod)",
+      "url": "https://opensource-demo.orangehrmlive.com/",
+      "username": "WrongUser",
+      "password": "WrongPass",
+      "expected": "failure"
+    },
+    {
+      "name": "Valid login Two (prod)",
+      "url": "https://opensource-demo.orangehrmlive.com/",
+      "username": "Admin",
+      "password": "admin123",
+      "expected": "success"
+    },
+    {
+      "name": "Invalid login Two(prod)",
+      "url": "https://opensource-demo.orangehrmlive.com/",
+      "username": "WrongUser",
+      "password": "WrongPass",
+      "expected": "failure"
+    }
+  ]
+}
