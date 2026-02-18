@@ -11,19 +11,20 @@ export function loadTestData(testInfo: TestInfo, envName: string): any {
   const dataPath = path.join(projectRoot, "data", dir, `${fileBase}.json`);
 
   if (!fs.existsSync(dataPath)) {
-    throw new Error(`❌ No data file found for test: ${dataPath}`);
+    throw new Error(`\nTest data file not found for the test: ${fileBase} \n Path of the test is ${dataPath}`);
   }
 
   const raw = fs.readFileSync(dataPath, "utf-8").trim();
   if (!raw) {
-    throw new Error(`❌ Data file is empty: ${dataPath}`);
+    throw new Error(`\nTest Data file is empty for the test ${fileBase} \n Path of the test is ${dataPath}`);
   }
 
   let parsed;
   try {
     parsed = JSON.parse(raw);
-  } catch {
-    throw new Error(`❌ Invalid JSON format in ${dataPath}`);
+  } catch (err) {
+    throw new Error(`\nTest Data Files is in Invalid JSON format the test ${fileBase} \n Path of the test is ${dataPath}`);
+
   }
 
   // ✅ Force any here

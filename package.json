@@ -20,5 +20,8 @@
     "test": "npm run test --workspace project-orangehrm",
     "ci": "npm run clean && npm run setup && npm run build:all && npm run test",
     "report": "npx playwright show-report --workspace project-orangehrm"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
   }
 }
