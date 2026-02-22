@@ -1,4 +1,4 @@
-// framework/src/index.ts
-export { test } from "./fixtures/index";   // ✅ use the extended test
-export { expect } from "@playwright/test";
-export * from "./loaders/scenario.loader";
+export { initAuthSession } from "./utils/auth-session/initAuthSession";
+export { test, expect } from "./fixtures/index";
+export { scenarioLoader } from "./loaders/scenario.loader";
+export { loadConfig } from "./loaders/envConfig.loader";

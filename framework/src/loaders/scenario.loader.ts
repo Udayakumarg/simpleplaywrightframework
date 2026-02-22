@@ -7,13 +7,9 @@ export function scenarioLoader(
   env: string = process.env.TEST_ENV || "qa",
   tag: string = process.env.SCENARIO_TAG || ""
 ): Scenario[] {
-  const baseName = path.basename(testFile, ".spec.ts");
-  const scenarioFile = path.resolve(
-    path.dirname(testFile),
-    "..",
-    "data",
-    `${baseName}.json`
-  );
+  // Replace "tests" with "data" and change extension
+  const relPath = testFile.replace("tests", "data").replace(/\.spec\.ts$/, ".json");
+  const scenarioFile = path.resolve(relPath);
 
   if (!fs.existsSync(scenarioFile)) {
     throw new Error(`❌ Scenario file not found: ${scenarioFile}`);
@@ -46,7 +42,7 @@ export function scenarioLoader(
     );
   }
 
-  // ✅ Strict tag filtering (auto-pick from env)
+  // ✅ Strict tag filtering
   if (tag) {
     scenarios = scenarios.filter(sc => sc.tags?.includes(tag));
     if (scenarios.length === 0) {
@@ -54,7 +50,9 @@ export function scenarioLoader(
     }
   }
 
-  console.log(`Loaded scenarios for env="${env}" tag="${tag}":`, scenarios.map(sc => sc.name));
+  console.log(
+    `✅ Loaded ${scenarios.length} scenarios [env=${env}${tag ? `, tag=${tag}` : ""}]`
+  );
 
   return scenarios;
 }
