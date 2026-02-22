@@ -54,6 +54,13 @@
       "expected": "success"
     },
     {
+      "name": "Valid login Three (prod)",
+      "url": "https://opensource-demo.orangehrmlive.com/",
+      "username": "Admin",
+      "password": "admin123",
+      "expected": "success"
+    },
+    {
       "name": "Invalid login Two(prod)",
       "url": "https://opensource-demo.orangehrmlive.com/",
       "username": "WrongUser",

@@ -13,7 +13,7 @@ test.describe.parallel("Login scenarios", () => {
       await initAuthSession( page, envConfig.authStorage!, { username: sc.username, password: sc.password }, providerRegistry );
       
       if (sc.expected === "success") {
-        await expect(page).toHaveURL(/dashboard/);
+        await expect(page).toHaveURL("**/dashboard");
       } else {
         await expect(page.locator(".oxd-alert-content")).toBeVisible();
       }

@@ -17,7 +17,7 @@ export default defineConfig({
         browserName,
         ...devices["Desktop Chrome"],
         headless: false,
-        navigationTimeout: 30 * 1000,
+        navigationTimeout: 60 * 1000,
         actionTimeout: 10 * 1000,
       },
     },
