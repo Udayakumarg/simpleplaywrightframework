@@ -1,19 +1,8 @@
 // framework/src/loaders/envConfig.loader.ts
 import fs from "fs";
 import path from "path";
-import type { AuthStorageConfig } from "../fixtures/auth.contract";
+import type { EnvConfig } from "../types/env";
 
-export interface EnvConfig {
-  baseUrl: string;
-  apiUrl?: string;
-  db?: {
-    host: string;
-    port: number;
-    user: string;
-    password: string;
-  };
-  authStorage?: AuthStorageConfig; // 👈 optional, only some envs have it
-}
 
 export function loadConfig(): EnvConfig {
   const configPath = path.join(process.cwd(), "config", "environments.json");

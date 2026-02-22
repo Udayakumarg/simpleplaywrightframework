@@ -1,6 +1,6 @@
-// envConfig.fixture.ts
 import { Page } from "@playwright/test";
-import { loadConfig, EnvConfig } from "../loaders/envConfig.loader";
+import { loadConfig } from "../loaders/envConfig.loader";
+import type { EnvConfig } from "../types/env";
 
 export const envConfigFixture = {
   envConfig: async (

@@ -1,6 +1,9 @@
 import { Page } from "@playwright/test";
+import { AuthProvider } from "../types/auth";
 
-// Contract for all login providers
-export interface AuthProvider {
-  login(page: Page): Promise<void>;
-}
+// Example provider implementation
+export const basicAuthProvider: AuthProvider = {
+  async login(page: Page) {
+    // login steps...
+  }
+};

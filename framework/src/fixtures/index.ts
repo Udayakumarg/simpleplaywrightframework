@@ -1,9 +1,9 @@
 import { test as base, Page } from "@playwright/test";
 import { envConfigFixture } from "./envConfig.fixture";
 import { dataFixture } from "./data.fixture";
-import { Fixtures } from "./types";
+import { Fixtures } from "../types/fixtures";
 import { testrailFixture } from "./testrail.fixture";
-import { initAuthSession } from "../utils/auth-storage";
+import { initAuthSession } from "../utils/auth-session/initAuthSession";
 
 export const test = base.extend<
   Fixtures & {

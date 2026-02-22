@@ -1,4 +1,3 @@
-// framework/src/fixtures/testrail.fixture.ts
 import { TestRailClient } from "../utils/testrail.client";
 import { TestFixture } from "@playwright/test";
 
@@ -11,6 +10,6 @@ export const testrailFixture: {
       process.env.TESTRAIL_USER!,
       process.env.TESTRAIL_APIKEY!
     );
-    await use(client); // use is correctly typed now
+    await use(client);
   },
 };
