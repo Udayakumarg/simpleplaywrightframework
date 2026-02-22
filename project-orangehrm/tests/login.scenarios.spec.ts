@@ -6,7 +6,8 @@ const scenarios = scenarioLoader(__filename);
 
 test.describe.parallel("Login scenarios", () => {
   for (const sc of scenarios) {
-    test(`Scenario: ${sc.name}`, async ({ page, envConfig }) => {
+    const tags = (sc.tags ?? []).map((t) => `@${t}`).join(" ");
+    test(`Scenario: ${sc.name} ${tags}`, async ({ page, envConfig }) => {
       await page.goto(envConfig.baseUrl);
 
       await initAuthSession(
