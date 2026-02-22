@@ -1,10 +1,37 @@
 {
   "compilerOptions": {
-    "rootDir": "tests",
+    "rootDir": "./",
     "outDir": "dist",
     "module": "CommonJS",
     "target": "ESNext",
-    "strict": true
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@framework": [
+        "../framework/src/index.ts"
+      ], // 👈 root index
+      "@framework/*": [
+        "../framework/src/*"
+      ], // optional for subpaths
+      "@project/*": [
+        "./*"
+      ]
+    }
   },
-  "include": ["tests/**/*.ts"]
+  "include": [
+    "tests/**/*.ts",
+    "auth/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "references": [
+    {
+      "path": "../framework"
+    }
+  ]
 }

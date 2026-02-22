@@ -5,7 +5,7 @@ const browserName =
   (process.env.BROWSER as "chromium" | "firefox" | "webkit") || "chromium";
 
 export default defineConfig({
-  workers: 4,
+  workers: 1,
   testDir: "./tests",
   testMatch: ["**/*.spec.ts", "**/*.test.ts"],
   reporter: [["html", { open: "never" }]], 
@@ -17,7 +17,7 @@ export default defineConfig({
         browserName,
         ...devices["Desktop Chrome"],
         headless: false,
-        navigationTimeout: 30 * 1000,
+        navigationTimeout: 60 * 1000,
         actionTimeout: 10 * 1000,
       },
     },

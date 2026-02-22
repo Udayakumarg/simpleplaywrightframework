@@ -1,10 +1,18 @@
+// framework/src/loaders/envConfig.loader.ts
 import fs from "fs";
 import path from "path";
+import type { AuthStorageConfig } from "../fixtures/auth.contract";
 
 export interface EnvConfig {
   baseUrl: string;
   apiUrl?: string;
-  db?: Record<string, any>;
+  db?: {
+    host: string;
+    port: number;
+    user: string;
+    password: string;
+  };
+  authStorage?: AuthStorageConfig; // 👈 optional, only some envs have it
 }
 
 export function loadConfig(): EnvConfig {

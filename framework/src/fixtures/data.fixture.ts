@@ -15,13 +15,13 @@ export const dataFixture = {
       td = loadTestData(testInfo, envName);
       console.log("Loaded test data:", td, "Type:", typeof td);
     } catch (err) {
-      console.error(`❌ loadTestData threw for env '${envName}':`, err);
+      console.error(`\n❌ loadTestData threw for env '${envName}':`, err);
       throw err; // rethrow so Playwright marks the test failed
     }
 
     if (!td || Object.keys(td).length === 0) {
       throw new Error(
-        `❌ No test data found for ${testInfo.file} in environment '${envName}'`,
+        `\n❌ No test data found for ${testInfo.file} in environment '${envName}'`,
       );
     }
 
