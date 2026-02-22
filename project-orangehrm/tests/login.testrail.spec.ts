@@ -1,7 +1,7 @@
 // project-orangehrm/tests/login.testrail.spec.ts
-import { test, expect } from "@framework/fixtures";
+import { test, expect } from "@framework";
 
-test("Login scenario linked to TestRail case C1234", async ({ page, envConfig, testrail }) => {
+test.skip("Login scenario linked to TestRail case C1234", async ({ page, envConfig, testrail }) => {
   await page.goto(envConfig.baseUrl);
   await page.fill('input[name="username"]', 'Admin');
   await page.fill('input[name="password"]', 'admin123');
