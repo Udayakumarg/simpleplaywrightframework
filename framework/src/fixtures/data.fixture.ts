@@ -3,36 +3,35 @@ import { loadTestData } from "../loaders/data.loader";
 import { Scenario } from "../types/scenario";
 
 export const dataFixture = {
-  td: async ({}, use: (td: Scenario[]) => Promise<void>, testInfo: TestInfo) => {
+  td: async ({}, use: (td: Scenario[] | object) => Promise<void>, testInfo: TestInfo) => {
     const envName = process.env.TEST_ENV || "qa";
     const tag = process.env.SCENARIO_TAG;
 
     console.log("I am inside Fixture");
 
-    let td: Scenario[];
+    let td: any;
     try {
       td = loadTestData(testInfo, envName);
-      console.log("Loaded test data:", td, "Type:", typeof td);
+      console.log("Loaded test data:", td, "Type:", Array.isArray(td) ? "array" : typeof td);
     } catch (err) {
-      console.error(`\n❌ loadTestData threw for env '${envName}':`, err);
-      throw err; // rethrow so Playwright marks the test failed
+      console.error(`❌ loadTestData threw for env '${envName}':`, err);
+      throw err;
     }
 
-    if (!td || td.length === 0) {
-      throw new Error(
-        `\n❌ No test data found for ${testInfo.file} in environment '${envName}'`,
-      );
+    if (!td || (Array.isArray(td) && td.length === 0)) {
+      throw new Error(`❌ No test data found for ${testInfo.file} in environment '${envName}'`);
     }
 
-    // ✅ Centralized tag filtering
-    td = td.filter(sc => {
-      if (tag && !sc.tags?.includes(tag)) return false;
-      return true;
-    });
-
-    console.log(
-      `✅ Loaded ${td.length} scenarios [env=${envName}${tag ? `, tag=${tag}` : ""}]`
-    );
+    // ✅ Only filter if data is an array of scenarios
+    if (Array.isArray(td)) {
+      td = td.filter(sc => !tag || sc.tags?.includes(tag));
+      if (td.length === 0) {
+        throw new Error(`❌ No scenarios found for env="${envName}" with tag="${tag}"`);
+      }
+      console.log(`✅ Loaded ${td.length} scenarios [env=${envName}${tag ? `, tag=${tag}` : ""}]`);
+    } else {
+      console.log("✅ Loaded test data object (no tag filtering applied)");
+    }
 
     await use(td);
   },

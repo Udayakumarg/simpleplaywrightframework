@@ -38,7 +38,7 @@
       "username": "Admin",
       "password": "admin123",
       "expected": "success",
-      "tags": ["smoke", "dryrun"]
+      "tags": ["smoke"]
     },
     {
       "name": "Invalid login (prod)",
@@ -54,7 +54,7 @@
       "username": "akshay.emp.61499",
       "password": "October@2020",
       "expected": "success",
-      "tags": ["regression", "positive", "dryrun"]
+      "tags": ["regression", "positive"]
     },
     {
       "name": "Valid login Three (prod)",
