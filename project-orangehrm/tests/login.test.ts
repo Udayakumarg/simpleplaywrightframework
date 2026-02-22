@@ -1,4 +1,4 @@
-import { test, expect } from "@framework";
+import { test, expect } from "@framework/fixtures";
 
 test.skip("login with valid Admin user", async ({ page, envConfig, td }) => {
   console.log("Base URL is", envConfig.baseUrl);
