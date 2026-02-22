@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { AuthProvider } from "@framework/fixtures/src/fixtures/auth.fixture"; // framework contract
+import { AuthProvider } from "@framework/fixtures/src/types/auth"; // framework contract
 
 export class OrangeHRMLogin implements AuthProvider {
   private creds: { username: string; password: string };

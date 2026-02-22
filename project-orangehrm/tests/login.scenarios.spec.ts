@@ -1,6 +1,6 @@
 import { test, expect, scenarioLoader } from "@framework";
 import { providerRegistry } from "@project/auth"; // project registry
-import { initAuthSession } from "@framework/utils/auth-session";
+import { initAuthSession } from "@framework/utils/auth-session/initAuthSession";
 
 const scenarios = scenarioLoader(__filename);
 
