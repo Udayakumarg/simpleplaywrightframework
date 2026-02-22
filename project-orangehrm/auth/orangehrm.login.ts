@@ -12,6 +12,6 @@ export class OrangeHRMLogin implements AuthProvider {
     await page.fill("input[name='username']", this.creds.username);
     await page.fill("input[name='password']", this.creds.password);
     await page.click("button[type='submit']");
-    await page.waitForURL("**/dashboard/index");
+    await page.waitForURL("**/dashboard/**");
   }
 }

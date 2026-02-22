@@ -1,6 +1,6 @@
 import { test, expect } from "@framework";
 
-test.skip("login with valid Admin user", async ({ page, envConfig, td }) => {
+test("login with valid Admin user @smoke @dryrun", async ({ page, envConfig, td }) => {
   console.log("Base URL is", envConfig.baseUrl);
   await page.goto(envConfig.baseUrl);
   await page.fill('input[name="username"]', td.users.admin.username);
@@ -8,6 +8,7 @@ test.skip("login with valid Admin user", async ({ page, envConfig, td }) => {
   await page.click('button[type="submit"]');
   await expect(page).toHaveURL(/dashboard/);
 });
+
 
 test.skip("login with valid Employee user", async ({ page, envConfig, td }) => {
   await page.goto(envConfig.baseUrl);

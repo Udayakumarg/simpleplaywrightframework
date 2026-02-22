@@ -37,35 +37,40 @@
       "url": "https://opensource-demo.orangehrmlive.com/",
       "username": "Admin",
       "password": "admin123",
-      "expected": "success"
+      "expected": "success",
+      "tags": ["smoke", "dryrun"]
     },
     {
       "name": "Invalid login (prod)",
       "url": "https://opensource-demo.orangehrmlive.com/",
       "username": "WrongUser",
       "password": "WrongPass",
-      "expected": "failure"
+      "expected": "failure",
+      "tags": ["negative"]
     },
     {
       "name": "Valid login Two (prod)",
       "url": "https://opensource-demo.orangehrmlive.com/",
-      "username": "Admin",
-      "password": "admin123",
-      "expected": "success"
+      "username": "akshay.emp.61499",
+      "password": "October@2020",
+      "expected": "success",
+      "tags": ["regression", "positive", "dryrun"]
     },
     {
       "name": "Valid login Three (prod)",
       "url": "https://opensource-demo.orangehrmlive.com/",
       "username": "Admin",
       "password": "admin123",
-      "expected": "success"
+      "expected": "success",
+      "tags": ["regression", "positive"]
     },
     {
-      "name": "Invalid login Two(prod)",
+      "name": "Invalid login Two (prod)",
       "url": "https://opensource-demo.orangehrmlive.com/",
       "username": "WrongUser",
       "password": "WrongPass",
-      "expected": "failure"
+      "expected": "failure",
+      "tags": ["regression", "negative"]
     }
   ]
 }
