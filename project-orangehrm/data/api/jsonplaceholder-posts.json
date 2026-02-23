@@ -1,0 +1,34 @@
+{
+  "qa": {
+    "postTitle": "Test Post QA",
+    "postBody": "This is a test post for QA environment",
+    "userId": 1,
+    "updateTitle": "Updated Test Post QA",
+    "updateBody": "This is an updated test post for QA",
+    "expectedPostId": 101
+  },
+  "staging": {
+    "postTitle": "Test Post Staging",
+    "postBody": "This is a test post for staging environment",
+    "userId": 2,
+    "updateTitle": "Updated Test Post Staging",
+    "updateBody": "This is an updated test post for staging",
+    "expectedPostId": 101
+  },
+  "prod": {
+    "postTitle": "Test Post Prod",
+    "postBody": "This is a test post for production environment",
+    "userId": 1,
+    "updateTitle": "Updated Test Post Prod",
+    "updateBody": "This is an updated test post for production",
+    "expectedPostId": 101
+  },
+  "dev": {
+    "postTitle": "Test Post Dev",
+    "postBody": "This is a test post for dev environment",
+    "userId": 1,
+    "updateTitle": "Updated Test Post Dev",
+    "updateBody": "This is an updated test post for dev",
+    "expectedPostId": 101
+  }
+}

@@ -3,7 +3,11 @@ import { envConfigFixture } from "./envConfig.fixture";
 import { dataFixture } from "./data.fixture";
 import { Fixtures } from "../types/fixtures";
 import { testrailFixture } from "./testrail.fixture";
+import { apiFixture } from "./api.fixture";
 import { initAuthSession } from "../utils/auth-session/initAuthSession";
+import type { ApiClient } from "../utils/api-client";
+import type { ApiAuthStorage } from "../utils/api-auth-storage";
+import type { ApiValidator } from "../utils/api-validators";
 
 export const test = base.extend<
   Fixtures & {
@@ -12,11 +16,15 @@ export const test = base.extend<
       creds: { username: string; password: string },
       providerRegistry: Record<string, any>,
     ) => Promise<void>;
+    apiClient: ApiClient;
+    apiAuth: ApiAuthStorage;
+    apiValidator: typeof ApiValidator;
   }
 >({
   ...envConfigFixture,
   ...dataFixture,
   ...testrailFixture,
+  ...apiFixture,
 
   authStore: async ({ envConfig }, use) => {
     await use(async (page, creds, providerRegistry) => {

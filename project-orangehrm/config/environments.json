@@ -5,48 +5,40 @@
     "autoLaunch": false
   },
   "dev": {
-    "baseUrl": "https://dev.orangehrm.example.com",
-    "apiUrl": "https://dev.orangehrm.example.com/api",
-    "db": {
-      "host": "dev-db.example.com",
-      "port": 5432,
-      "user": "dev_user",
-      "password": "dev_pass"
-    },
+    "baseUrl": "https://www.saucedemo.com",
+    "apiUrl": "https://jsonplaceholder.typicode.com",
     "authStorage": {
       "enabled": true,
       "validityMinutes": 30,
-      "provider": "OrangeHRMLogin"
+      "provider": "SauceDemoLogin"
     }
   },
   "qa": {
-    "baseUrl": "https://qa.orangehrm.example.com",
-    "apiUrl": "https://qa.orangehrm.example.com/api",
-    "db": {
-      "host": "qa-db.example.com",
-      "port": 5432,
-      "user": "qa_user",
-      "password": "qa_pass"
-    },
+    "baseUrl": "https://www.saucedemo.com",
+    "apiUrl": "https://jsonplaceholder.typicode.com",
     "authStorage": {
       "enabled": true,
       "validityMinutes": 30,
-      "provider": "OrangeHRMLogin"
+      "provider": "SauceDemoLogin"
+    }
+  },
+  "staging": {
+    "baseUrl": "https://www.saucedemo.com",
+    "apiUrl": "https://jsonplaceholder.typicode.com",
+    "authStorage": {
+      "enabled": true,
+      "validityMinutes": 30,
+      "provider": "SauceDemoLogin"
     }
   },
   "prod": {
-    "baseUrl": "https://opensource-demo.orangehrmlive.com/",
-    "apiUrl": "https://opensource-demo.orangehrmlive.com/api",
-    "db": {
-      "host": "prod-db.example.com",
-      "port": 5432,
-      "user": "prod_user",
-      "password": "prod_pass"
-    },
+    "baseUrl": "https://www.saucedemo.com",
+    "apiUrl": "https://jsonplaceholder.typicode.com",
     "authStorage": {
       "enabled": true,
       "validityMinutes": 30,
-      "provider": "OrangeHRMLogin"
+      "provider": "SauceDemoLogin"
     }
   }
 }
+

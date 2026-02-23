@@ -1,0 +1,102 @@
+{
+  "dev": {
+    "validCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "invalidCredentials": {
+      "username": "invalid_user",
+      "password": "wrong_password"
+    },
+    "lockedUser": {
+      "username": "locked_out_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bolt T-Shirt"],
+    "sortOptions": [
+      {
+        "name": "Name (A to Z)",
+        "value": "az"
+      },
+      {
+        "name": "Name (Z to A)",
+        "value": "za"
+      }
+    ]
+  },
+  "qa": {
+    "validCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "invalidCredentials": {
+      "username": "invalid_user",
+      "password": "wrong_password"
+    },
+    "lockedUser": {
+      "username": "locked_out_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bolt T-Shirt"],
+    "sortOptions": [
+      {
+        "name": "Name (A to Z)",
+        "value": "az"
+      },
+      {
+        "name": "Name (Z to A)",
+        "value": "za"
+      }
+    ]
+  },
+  "staging": {
+    "validCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "invalidCredentials": {
+      "username": "invalid_user",
+      "password": "wrong_password"
+    },
+    "lockedUser": {
+      "username": "locked_out_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bolt T-Shirt"],
+    "sortOptions": [
+      {
+        "name": "Name (A to Z)",
+        "value": "az"
+      },
+      {
+        "name": "Name (Z to A)",
+        "value": "za"
+      }
+    ]
+  },
+  "prod": {
+    "validCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "invalidCredentials": {
+      "username": "invalid_user",
+      "password": "wrong_password"
+    },
+    "lockedUser": {
+      "username": "locked_out_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bolt T-Shirt"],
+    "sortOptions": [
+      {
+        "name": "Name (A to Z)",
+        "value": "az"
+      },
+      {
+        "name": "Name (Z to A)",
+        "value": "za"
+      }
+    ]
+  }
+}

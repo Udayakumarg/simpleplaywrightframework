@@ -1,0 +1,54 @@
+{
+  "dev": {
+    "userToCreate": {
+      "name": "Test User Dev",
+      "job": "QA Automation"
+    },
+    "userToUpdate": {
+      "name": "Test User Dev Updated",
+      "job": "Senior QA Automation"
+    },
+    "expectedCreateStatus": 201,
+    "expectedUpdateStatus": 200,
+    "expectedDeleteStatus": 204
+  },
+  "qa": {
+    "userToCreate": {
+      "name": "Test User QA",
+      "job": "Test Automation"
+    },
+    "userToUpdate": {
+      "name": "Test User QA Updated",
+      "job": "Senior Test Automation"
+    },
+    "expectedCreateStatus": 201,
+    "expectedUpdateStatus": 200,
+    "expectedDeleteStatus": 204
+  },
+  "staging": {
+    "userToCreate": {
+      "name": "Test User Staging",
+      "job": "Automation Engineer"
+    },
+    "userToUpdate": {
+      "name": "Test User Staging Updated",
+      "job": "Senior Automation Engineer"
+    },
+    "expectedCreateStatus": 201,
+    "expectedUpdateStatus": 200,
+    "expectedDeleteStatus": 204
+  },
+  "prod": {
+    "userToCreate": {
+      "name": "Test User Prod",
+      "job": "Framework Engineer"
+    },
+    "userToUpdate": {
+      "name": "Test User Prod Updated",
+      "job": "Senior Framework Engineer"
+    },
+    "expectedCreateStatus": 201,
+    "expectedUpdateStatus": 200,
+    "expectedDeleteStatus": 204
+  }
+}

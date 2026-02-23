@@ -1,0 +1,26 @@
+{
+  "qa": {
+    "pokemon": "pikachu",
+    "pokemonId": 25,
+    "type": "electric",
+    "typeId": 13
+  },
+  "staging": {
+    "pokemon": "charizard",
+    "pokemonId": 6,
+    "type": "fire",
+    "typeId": 10
+  },
+  "prod": {
+    "pokemon": "blastoise",
+    "pokemonId": 9,
+    "type": "water",
+    "typeId": 11
+  },
+  "dev": {
+    "pokemon": "venusaur",
+    "pokemonId": 3,
+    "type": "grass",
+    "typeId": 12
+  }
+}

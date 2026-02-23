@@ -1,0 +1,34 @@
+{
+  "dev": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bolt T-Shirt"],
+    "productsToRemove": ["Sauce Labs Backpack"]
+  },
+  "qa": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bolt T-Shirt"],
+    "productsToRemove": ["Sauce Labs Backpack"]
+  },
+  "staging": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bolt T-Shirt"],
+    "productsToRemove": ["Sauce Labs Backpack"]
+  },
+  "prod": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bolt T-Shirt"],
+    "productsToRemove": ["Sauce Labs Backpack"]
+  }
+}

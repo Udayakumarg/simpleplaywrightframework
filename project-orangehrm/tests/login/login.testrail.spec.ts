@@ -9,9 +9,13 @@ test.skip("Login scenario linked to TestRail case C1234", async ({ page, envConf
 
   try {
     await expect(page).toHaveURL(/dashboard/);
-    await testrail.addResult(1234, 1, "Login passed ✅"); // status_id 1 = Passed
+    if (testrail) {
+      await testrail.addResult(1234, 1, "Login passed ✅"); // status_id 1 = Passed
+    }
   } catch (err) {
-    await testrail.addResult(1234, 5, "Login failed ❌"); // status_id 5 = Failed
+    if (testrail) {
+      await testrail.addResult(1234, 5, "Login failed ❌"); // status_id 5 = Failed
+    }
     throw err;
   }
 });

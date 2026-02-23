@@ -1,0 +1,58 @@
+{
+  "dev": {
+    "validCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "invalidCredentials": {
+      "username": "invalid_user",
+      "password": "wrong_password"
+    },
+    "lockedUser": {
+      "username": "locked_out_user",
+      "password": "secret_sauce"
+    }
+  },
+  "qa": {
+    "validCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "invalidCredentials": {
+      "username": "invalid_user",
+      "password": "wrong_password"
+    },
+    "lockedUser": {
+      "username": "locked_out_user",
+      "password": "secret_sauce"
+    }
+  },
+  "staging": {
+    "validCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "invalidCredentials": {
+      "username": "invalid_user",
+      "password": "wrong_password"
+    },
+    "lockedUser": {
+      "username": "locked_out_user",
+      "password": "secret_sauce"
+    }
+  },
+  "prod": {
+    "validCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "invalidCredentials": {
+      "username": "invalid_user",
+      "password": "wrong_password"
+    },
+    "lockedUser": {
+      "username": "locked_out_user",
+      "password": "secret_sauce"
+    }
+  }
+}

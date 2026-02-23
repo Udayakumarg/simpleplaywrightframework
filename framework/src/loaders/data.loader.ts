@@ -27,7 +27,14 @@ export function loadTestData(testInfo: TestInfo, envName: string): any {
   // Validate existence
   if (!fs.existsSync(dataPath)) {
     throw new Error(
-      `\n❌ Test data file not found for test: ${fileBase}\nPath: ${dataPath}`
+      `❌ Test data file not found for test: ${fileBase}\n` +
+      `Path: ${dataPath}\n` +
+      `💡 Hint: Create test data file at: ${dataPath}\n` +
+      `   Example format:\n` +
+      `   {\n` +
+      `     "qa": { /* test data */ },\n` +
+      `     "prod": { /* test data */ }\n` +
+      `   }`
     );
   }
 
@@ -35,7 +42,9 @@ export function loadTestData(testInfo: TestInfo, envName: string): any {
   const raw = fs.readFileSync(dataPath, "utf-8").trim();
   if (!raw) {
     throw new Error(
-      `\n❌ Test data file is empty for test: ${fileBase}\nPath: ${dataPath}`
+      `❌ Test data file is empty for test: ${fileBase}\n` +
+      `Path: ${dataPath}\n` +
+      `💡 Hint: Add environment-specific test data to the file`
     );
   }
 
@@ -43,9 +52,11 @@ export function loadTestData(testInfo: TestInfo, envName: string): any {
   let parsed: any;
   try {
     parsed = JSON.parse(raw);
-  } catch {
+  } catch (error) {
     throw new Error(
-      `\n❌ Invalid JSON format in test data for: ${fileBase}\nPath: ${dataPath}`
+      `❌ Invalid JSON format in test data for: ${fileBase}\n` +
+      `Path: ${dataPath}\n` +
+      `💡 Error: ${error instanceof Error ? error.message : String(error)}`
     );
   }
 
@@ -53,6 +64,13 @@ export function loadTestData(testInfo: TestInfo, envName: string): any {
   if (parsed[envName]) {
     return parsed[envName];
   }
+
+  // Warn when env data is missing
+  const availableEnvs = Object.keys(parsed).join(", ");
+  console.warn(
+    `⚠️ Warning: Environment '${envName}' not found in ${fileBase}.json\n` +
+    `   Available environments: ${availableEnvs}`
+  );
 
   // Explicit undefined if env key not found
   return undefined;

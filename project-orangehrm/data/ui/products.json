@@ -1,0 +1,114 @@
+{
+  "dev": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "sortOptions": [
+      {
+        "name": "Name (A to Z)",
+        "value": "az",
+        "expectedOrder": ["Backpack", "Bike Light", "Bolt T-Shirt", "Fleece Jacket", "Onesie", "T-Shirt"]
+      },
+      {
+        "name": "Name (Z to A)",
+        "value": "za",
+        "expectedOrder": ["T-Shirt", "Onesie", "Fleece Jacket", "Bolt T-Shirt", "Bike Light", "Backpack"]
+      },
+      {
+        "name": "Price (low to high)",
+        "value": "lohi",
+        "expectedOrder": ["Onesie", "Bike Light", "Backpack", "Fleece Jacket", "Bolt T-Shirt", "T-Shirt"]
+      },
+      {
+        "name": "Price (high to low)",
+        "value": "hilo",
+        "expectedOrder": ["T-Shirt", "Bolt T-Shirt", "Fleece Jacket", "Backpack", "Bike Light", "Onesie"]
+      }
+    ]
+  },
+  "qa": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "sortOptions": [
+      {
+        "name": "Name (A to Z)",
+        "value": "az",
+        "expectedOrder": ["Backpack", "Bike Light", "Bolt T-Shirt", "Fleece Jacket", "Onesie", "T-Shirt"]
+      },
+      {
+        "name": "Name (Z to A)",
+        "value": "za",
+        "expectedOrder": ["T-Shirt", "Onesie", "Fleece Jacket", "Bolt T-Shirt", "Bike Light", "Backpack"]
+      },
+      {
+        "name": "Price (low to high)",
+        "value": "lohi",
+        "expectedOrder": ["Onesie", "Bike Light", "Backpack", "Fleece Jacket", "Bolt T-Shirt", "T-Shirt"]
+      },
+      {
+        "name": "Price (high to low)",
+        "value": "hilo",
+        "expectedOrder": ["T-Shirt", "Bolt T-Shirt", "Fleece Jacket", "Backpack", "Bike Light", "Onesie"]
+      }
+    ]
+  },
+  "staging": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "sortOptions": [
+      {
+        "name": "Name (A to Z)",
+        "value": "az",
+        "expectedOrder": ["Backpack", "Bike Light", "Bolt T-Shirt", "Fleece Jacket", "Onesie", "T-Shirt"]
+      },
+      {
+        "name": "Name (Z to A)",
+        "value": "za",
+        "expectedOrder": ["T-Shirt", "Onesie", "Fleece Jacket", "Bolt T-Shirt", "Bike Light", "Backpack"]
+      },
+      {
+        "name": "Price (low to high)",
+        "value": "lohi",
+        "expectedOrder": ["Onesie", "Bike Light", "Backpack", "Fleece Jacket", "Bolt T-Shirt", "T-Shirt"]
+      },
+      {
+        "name": "Price (high to low)",
+        "value": "hilo",
+        "expectedOrder": ["T-Shirt", "Bolt T-Shirt", "Fleece Jacket", "Backpack", "Bike Light", "Onesie"]
+      }
+    ]
+  },
+  "prod": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "sortOptions": [
+      {
+        "name": "Name (A to Z)",
+        "value": "az",
+        "expectedOrder": ["Backpack", "Bike Light", "Bolt T-Shirt", "Fleece Jacket", "Onesie", "T-Shirt"]
+      },
+      {
+        "name": "Name (Z to A)",
+        "value": "za",
+        "expectedOrder": ["T-Shirt", "Onesie", "Fleece Jacket", "Bolt T-Shirt", "Bike Light", "Backpack"]
+      },
+      {
+        "name": "Price (low to high)",
+        "value": "lohi",
+        "expectedOrder": ["Onesie", "Bike Light", "Backpack", "Fleece Jacket", "Bolt T-Shirt", "T-Shirt"]
+      },
+      {
+        "name": "Price (high to low)",
+        "value": "hilo",
+        "expectedOrder": ["T-Shirt", "Bolt T-Shirt", "Fleece Jacket", "Backpack", "Bike Light", "Onesie"]
+      }
+    ]
+  }
+}

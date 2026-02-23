@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "pageParam": 1,
+    "expectedPage": 1,
+    "expectedPerPage": 6,
+    "expectedTotal": 12
+  },
+  "qa": {
+    "pageParam": 1,
+    "expectedPage": 1,
+    "expectedPerPage": 6,
+    "expectedTotal": 12
+  },
+  "staging": {
+    "pageParam": 1,
+    "expectedPage": 1,
+    "expectedPerPage": 6,
+    "expectedTotal": 12
+  },
+  "prod": {
+    "pageParam": 1,
+    "expectedPage": 1,
+    "expectedPerPage": 6,
+    "expectedTotal": 12
+  }
+}

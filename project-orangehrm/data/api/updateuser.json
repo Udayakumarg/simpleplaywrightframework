@@ -1,0 +1,34 @@
+{
+  "dev": {
+    "userId": 2,
+    "updatedUser": {
+      "name": "John Updated",
+      "job": "Senior QA Engineer"
+    },
+    "expectedStatusCode": 200
+  },
+  "qa": {
+    "userId": 2,
+    "updatedUser": {
+      "name": "Jane Updated",
+      "job": "Test Lead"
+    },
+    "expectedStatusCode": 200
+  },
+  "staging": {
+    "userId": 2,
+    "updatedUser": {
+      "name": "Bob Updated",
+      "job": "Tech Lead"
+    },
+    "expectedStatusCode": 200
+  },
+  "prod": {
+    "userId": 2,
+    "updatedUser": {
+      "name": "Alice Updated",
+      "job": "Principal Engineer"
+    },
+    "expectedStatusCode": 200
+  }
+}

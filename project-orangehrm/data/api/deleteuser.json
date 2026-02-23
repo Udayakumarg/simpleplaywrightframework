@@ -1,0 +1,18 @@
+{
+  "dev": {
+    "userId": 3,
+    "expectedStatusCode": 204
+  },
+  "qa": {
+    "userId": 3,
+    "expectedStatusCode": 204
+  },
+  "staging": {
+    "userId": 3,
+    "expectedStatusCode": 204
+  },
+  "prod": {
+    "userId": 3,
+    "expectedStatusCode": 204
+  }
+}

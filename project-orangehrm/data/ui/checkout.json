@@ -1,0 +1,50 @@
+{
+  "dev": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bike Light"],
+    "checkoutInfo": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "zipCode": "12345"
+    }
+  },
+  "qa": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bike Light"],
+    "checkoutInfo": {
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "zipCode": "54321"
+    }
+  },
+  "staging": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bike Light"],
+    "checkoutInfo": {
+      "firstName": "Bob",
+      "lastName": "Johnson",
+      "zipCode": "98765"
+    }
+  },
+  "prod": {
+    "loginCredentials": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "productsToAdd": ["Sauce Labs Backpack", "Sauce Labs Bike Light"],
+    "checkoutInfo": {
+      "firstName": "Alice",
+      "lastName": "Williams",
+      "zipCode": "56789"
+    }
+  }
+}

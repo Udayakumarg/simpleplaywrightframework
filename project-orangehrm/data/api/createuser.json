@@ -1,0 +1,30 @@
+{
+  "dev": {
+    "user": {
+      "name": "John Doe",
+      "job": "QA Engineer"
+    },
+    "expectedStatusCode": 201
+  },
+  "qa": {
+    "user": {
+      "name": "Jane Smith",
+      "job": "Test Automation"
+    },
+    "expectedStatusCode": 201
+  },
+  "staging": {
+    "user": {
+      "name": "Bob Johnson",
+      "job": "Software Engineer"
+    },
+    "expectedStatusCode": 201
+  },
+  "prod": {
+    "user": {
+      "name": "Alice Williams",
+      "job": "DevOps Engineer"
+    },
+    "expectedStatusCode": 201
+  }
+}

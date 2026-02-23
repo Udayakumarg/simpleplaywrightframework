@@ -2,6 +2,6 @@
 import type { TestRailClient } from "../utils/testrail.client";
 
 /**
- * Type alias for TestRail client fixture
+ * Type alias for TestRail client fixture (optional - can be null if env vars missing)
  */
-export type TestrailType = TestRailClient;
+export type TestrailType = TestRailClient | null;
