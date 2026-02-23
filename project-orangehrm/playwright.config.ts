@@ -5,7 +5,7 @@ const browserName =
   (process.env.BROWSER as "chromium" | "firefox" | "webkit") || "chromium";
 
 export default defineConfig({
-  workers: 2,
+  workers: 5,
   testDir: "./tests",
   testMatch: ["**/*.spec.ts", "**/*.test.ts"],
   reporter: [["html", { open: "never" }]], 

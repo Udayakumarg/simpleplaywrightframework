@@ -35,8 +35,8 @@
     }
   },
   "prod": {
-    "baseUrl": "https://opensource-demo.orangehrmlive.com/",
-    "apiUrl": "https://opensource-demo.orangehrmlive.com/api",
+    "baseUrl": "https://opensource-demo.orangehrmlive.com",
+    "apiUrl": "https://reqres.in",
     "db": {
       "host": "prod-db.example.com",
       "port": 5432,

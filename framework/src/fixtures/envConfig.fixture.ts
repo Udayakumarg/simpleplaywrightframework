@@ -1,22 +1,15 @@
-import { Page } from "@playwright/test";
+// framework/src/fixtures/env.fixture.ts
+import { test as base } from "@playwright/test";
 import { loadConfig } from "../loaders/envConfig.loader";
-import type { EnvConfig } from "../types/env";
 
-export const envConfigFixture = {
-  envConfig: async (
-    { page }: { page: Page },
-    use: (config: EnvConfig) => Promise<void>,
-  ) => {
-    const config = loadConfig();
+type EnvConfig = ReturnType<typeof loadConfig>;
 
-    /*
-    if (config.autoLaunch && config.baseUrl) {
-      console.log(`🌐 Navigating to: ${config.baseUrl}`);
-      await page.goto(config.baseUrl, { waitUntil: "domcontentloaded" });
-      console.log("✅ Navigation complete");
-    }
-    */
-
+export const test = base.extend<{ envConfig: EnvConfig }>({
+  envConfig: async ({}, use) => {
+    const config = loadConfig(process.env.TEST_ENV || "qa");
     await use(config);
-  },
-};
+  }
+});
+
+// 👇 explicitly mark worker scope
+(test as any)._fixtures.envConfig[1].scope = "worker";

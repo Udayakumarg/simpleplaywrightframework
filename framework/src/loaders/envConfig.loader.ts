@@ -4,7 +4,7 @@ import path from "path";
 import type { EnvConfig } from "../types/env";
 
 
-export function loadConfig(): EnvConfig {
+export function loadConfig(p0: string): EnvConfig {
   const configPath = path.join(process.cwd(), "config", "environments.json");
   if (!fs.existsSync(configPath)) {
     throw new Error(`❌ environments.json not found at ${configPath}`);
