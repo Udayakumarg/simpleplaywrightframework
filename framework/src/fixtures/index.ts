@@ -4,6 +4,7 @@ import { dataFixture } from "./data.fixture";
 import { Fixtures } from "../types/fixtures";
 import { testrailFixture } from "./testrail.fixture";
 import { initAuthSession } from "../utils/auth-session/initAuthSession";
+import { fileFixture } from "./file.fixture";
 
 export const test = base.extend<
   Fixtures & {
@@ -17,6 +18,7 @@ export const test = base.extend<
   ...envConfigFixture,
   ...dataFixture,
   ...testrailFixture,
+  ...fileFixture,
 
   authStore: async ({ envConfig }, use) => {
     await use(async (page, creds, providerRegistry) => {
@@ -25,7 +27,12 @@ export const test = base.extend<
           `[Framework] authStorage block missing in envConfig for this environment`,
         );
       }
-      await initAuthSession(page, envConfig.authStorage, creds, providerRegistry);
+      await initAuthSession(
+        page,
+        envConfig.authStorage,
+        creds,
+        providerRegistry,
+      );
     });
   },
 });
