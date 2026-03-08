@@ -12,18 +12,19 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3"
   },
-"scripts": {
-  "setup": "npm install",
-  "clean": "npm run clean --workspace framework && npm run clean --workspace project-orangehrm",
-  "build:framework": "npm run build --workspace framework",
-  "build:orangehrm": "npm install --workspace project-orangehrm && npm run compile --workspace project-orangehrm",
-  "build:all": "npm run build:framework && npm run build:orangehrm",
-  "test": "npm run test --workspace project-orangehrm",
-  "ci": "npm run clean && npm run setup && npm run build:all && npm run test",
-  "report": "npx playwright show-report --workspace project-orangehrm",
-  "tsnode": "ts-node -r tsconfig-paths/register" 
-},
+  "scripts": {
+    "setup": "npm install",
+    "clean": "npm run clean --workspace framework && npm run clean --workspace project-orangehrm",
+    "build:framework": "npm run build --workspace framework",
+    "build:orangehrm": "npm install --workspace project-orangehrm && npm run compile --workspace project-orangehrm",
+    "build:all": "npm run build:framework && npm run build:orangehrm",
+    "test": "npm run test --workspace project-orangehrm",
+    "ci": "npm run clean && npm run setup && npm run build:all && npm run test",
+    "report": "npx playwright show-report --workspace project-orangehrm",
+    "tsnode": "ts-node -r tsconfig-paths/register"
+  },
   "dependencies": {
     "node-fetch": "^3.3.2"
-  }
+  },
+  "version": "0.0.1"
 }
