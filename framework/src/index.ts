@@ -3,3 +3,7 @@ export { test, expect } from "./fixtures/index";
 export { scenarioLoader } from "./loaders/scenario.loader";
 export { loadConfig } from "./loaders/envConfig.loader";
 export { FileUtils } from "./utils/file-utils";
+export { envConfigFixture } from "./fixtures/envConfig.fixture";
+export { dataFixture } from "./fixtures/data.fixture";
+export { fileFixture } from "./fixtures/file.fixture";
+export { testrailFixture } from "./fixtures/testrail.fixture";
