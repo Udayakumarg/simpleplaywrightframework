@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
 
 const cwd = process.cwd();
 const demoDir = path.join(cwd, "demo-project");
@@ -12,17 +13,49 @@ function writeFileSafe(filePath, content) {
   console.log(`📄 Created: ${filePath}`);
 }
 
+function run(cmd, cwd) {
+  console.log(`> ${cmd}`);
+  execSync(cmd, { stdio: "inherit", cwd });
+}
+
 // package.json
 writeFileSafe(path.join(demoDir, "package.json"),
   JSON.stringify({
     name: "demo-project",
     version: "1.0.0",
     private: true,
-    scripts: { test: "playwright test" },
+    scripts: {
+      init: "node ../framework/scripts/init-demo-project.js",
+      clean: "rimraf dist tsconfig.tsbuildinfo",
+      build: "tsc --build --force",
+      test: "playwright test"
+    },
     devDependencies: {
       "@playwright/test": "^1.58.2",
-      "simple-playwright-framework": "latest"
+      "simple-playwright-framework": "latest",
+      "@types/node": "^20.0.0",
+      "rimraf": "^5.0.0"
     }
+  }, null, 2)
+);
+
+// tsconfig.json
+writeFileSafe(path.join(demoDir, "tsconfig.json"),
+  JSON.stringify({
+    compilerOptions: {
+      target: "ESNext",
+      module: "CommonJS",
+      strict: true,
+      noImplicitAny: true,
+      esModuleInterop: true,
+      moduleResolution: "Node",
+      resolveJsonModule: true,
+      types: ["@playwright/test", "simple-playwright-framework", "node"],
+      baseUrl: ".",
+      paths: { "@demo-project/*": ["./*"] },
+      outDir: "dist"
+    },
+    include: ["tests/**/*.ts", "global.d.ts"]
   }, null, 2)
 );
 
@@ -106,7 +139,7 @@ test('login with Admin user @smoke', async ({ page, envConfig, td }) => {
 `);
 
 writeFileSafe(path.join(demoDir, "tests/login/login.scenarios.spec.ts"), `import { test, expect, scenarioLoader, initAuthSession } from 'simple-playwright-framework';
-import { providerRegistry } from '@project/auth';
+import { providerRegistry } from '@demo-project/auth';
 const scenarios = scenarioLoader(__filename);
 test.describe.parallel("Login scenarios", () => {
   for (const sc of scenarios) {
@@ -124,7 +157,7 @@ test.describe.parallel("Login scenarios", () => {
 `);
 
 writeFileSafe(path.join(demoDir, "tests/login/loginwithauthstorage.spec.ts"), `import { test, expect, initAuthSession } from 'simple-playwright-framework';
-import { providerRegistry } from '@project/auth';
+import { providerRegistry } from '@demo-project/auth';
 test('login with Admin user using Auth Storage', async ({ page, envConfig, td }) => {
   await page.goto(envConfig.baseUrl);
   await initAuthSession(page, envConfig.authStorage!, { username: td.users.admin.username, password: td.users.admin.password }, providerRegistry);
@@ -184,3 +217,19 @@ test('reporting example', async ({ testrail }) => {
 `);
 
 // README
+writeFileSafe(path.join(demoDir, "README.md"), `# Demo Project
+
+This is a scaffolded Playwright demo project using **simple-playwright-framework**.
+Run \`npm run test\` to execute the sample tests.
+`);
+
+// Final step: install deps + build
+try {
+  console.log("🚀 Installing dependencies and building demo-project...");
+  run("npm install", demoDir);
+  run("npm run build", demoDir);
+  console.log("✅ Demo project initialized. Ready to run Playwright tests!");
+} catch (err) {
+  console.error("❌ Init failed:", err.message);
+  process.exit(1);
+}
