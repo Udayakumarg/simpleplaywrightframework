@@ -1,23 +1,45 @@
 {
   "name": "simple-playwright-framework",
-  "version": "0.0.4",
+  "version": "0.0.5",
+  "description": "A modular Playwright framework with fixtures, loaders, and demo scaffolding.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "rimraf dist .cache",
-    "build": "tsc -p tsconfig.json"
-  },
-  "dependencies": {
-    "node-fetch": "^2.6.7"
-  },
-  "peerDependencies": {
-    "@playwright/test": "^1.58.2"
+    "clean": "rimraf node_modules package-lock.json dist .cache",
+    "reinstall": "npm install",
+    "compile": "tsc -p tsconfig.json",
+    "build": "npm run clean && npm run reinstall && npm run compile",
+    "test": "rimraf playwright-report && playwright test",
+    "report": "playwright show-report"
   },
   "bin": {
-    "init-sample-project": "./scripts/setup-framework.js"
+    "init-framework-project": "./scripts/init-framework-project.js",
+    "init-demo-project": "./scripts/init-demo-project.js"
   },
   "files": [
-    "dist",
-    "scripts"
-  ]
+    "dist/**/*",
+    "scripts/init-framework-project.js",
+    "scripts/init-demo-project.js"
+  ],
+  "keywords": [
+    "playwright",
+    "framework",
+    "testing",
+    "automation",
+    "fixtures",
+    "typescript"
+  ],
+  "author": "Udayakumar",
+  "license": "MIT",
+  "dependencies": {
+    "@framework/fixtures": "file:../framework"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.2.3",
+    "rimraf": "^6.1.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
+  }
 }
