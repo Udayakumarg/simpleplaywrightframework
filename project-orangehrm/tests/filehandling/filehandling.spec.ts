@@ -1,6 +1,6 @@
 import { test } from "@framework/fixtures";
 
-test("upload and download demo", async ({ page, fileUtils }) => {
+test("upload and download demo", async ({ page, fileUtils,  }) => {
   await page.goto("https://the-internet.herokuapp.com/upload");
   await fileUtils.uploadFile("#file-upload", "project-orangehrm/data/ui/sample.txt");
   await page.click("#file-submit");

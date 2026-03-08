@@ -52,8 +52,10 @@ export function loadTestData(testInfo: TestInfo, envName: string): any {
   // Return environment-specific slice
   if (parsed[envName]) {
     return parsed[envName];
+  }else{
+     throw new Error(
+      `\n❌ Data is not available for Execution Environment ${envName} in test data for: ${fileBase}\nPath: ${dataPath}`
+    );
   }
 
-  // Explicit undefined if env key not found
-  return undefined;
 }
