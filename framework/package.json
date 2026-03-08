@@ -1,6 +1,6 @@
 {
   "name": "simple-playwright-framework",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A modular Playwright framework with fixtures, loaders, and demo scaffolding.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,8 +13,8 @@
     "report": "playwright show-report"
   },
   "bin": {
-    "init-framework-project": "./scripts/init-framework-project.js",
-    "init-demo-project": "./scripts/init-demo-project.js"
+    "init-framework-project": "scripts/init-framework-project.js",
+    "init-demo-project": "scripts/init-demo-project.js"
   },
   "files": [
     "dist/**/*",
