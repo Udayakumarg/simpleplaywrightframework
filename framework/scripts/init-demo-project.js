@@ -26,7 +26,7 @@ writeFileSafe(path.join(demoDir, "package.json"),
     private: true,
     scripts: {
       init: "node ../framework/scripts/init-demo-project.js",
-      clean: "rimraf dist tsconfig.tsbuildinfo",
+      clean: "npx rimraf dist tsconfig.tsbuildinfo",
       build: "tsc --build --force",
       test: "playwright test"
     },
@@ -52,7 +52,7 @@ writeFileSafe(path.join(demoDir, "tsconfig.json"),
       resolveJsonModule: true,
       types: ["@playwright/test", "simple-playwright-framework", "node"],
       baseUrl: ".",
-      paths: { "@demo-project/*": ["./*"] },
+      paths: { "@demo-project/*": ["./*"] , "@demo-project/auth": ["auth/index.ts"]},
       outDir: "dist"
     },
     include: ["tests/**/*.ts", "global.d.ts"]
@@ -63,6 +63,7 @@ writeFileSafe(path.join(demoDir, "tsconfig.json"),
 writeFileSafe(path.join(demoDir, "playwright.config.ts"), `import { defineConfig } from '@playwright/test';
 export default defineConfig({ testDir: './tests', reporter: [['html']] });
 `);
+
 
 // config
 writeFileSafe(path.join(demoDir, "config/environments.json"),
@@ -100,6 +101,16 @@ writeFileSafe(path.join(demoDir, "data/login/loginwithauthstorage.json"),
   JSON.stringify({ prod: { users: { admin: { username: "Admin", password: "admin123" } } } }, null, 2)
 );
 
+
+// -------------------- auth/index.ts --------------------
+writeFileSafe(path.join(demoDir, "auth/index.ts"), 
+`import { OrangeHRMLogin } from "./orangehrm.login";
+
+export const providerRegistry = {
+  OrangeHRMLogin,
+};
+`);
+
 // data/api
 writeFileSafe(path.join(demoDir, "data/api/payload.json"),
   JSON.stringify({ createUser: { username: "demoUser", password: "demoPass" } }, null, 2)
@@ -115,7 +126,7 @@ writeFileSafe(path.join(demoDir, "storage/authStorage.json"),
 
 // auth
 writeFileSafe(path.join(demoDir, "auth/orangehrm.login.ts"), `import { Page } from '@playwright/test';
-import { AuthProvider } from 'simple-playwright-framework/fixtures/src/types/auth';
+import { AuthProvider } from 'simple-playwright-framework';
 export class OrangeHRMLogin implements AuthProvider {
   constructor(private creds: { username: string; password: string }) {}
   async login(page: Page): Promise<void> {
@@ -182,7 +193,7 @@ test('Login linked to TestRail case C1234', async ({ page, envConfig, testrail }
 `);
 
 // tests/filehandling
-writeFileSafe(path.join(demoDir, "tests/filehandling/filehandling.spec.ts"), `import { test } from 'simple-playwright-framework/fixtures';
+writeFileSafe(path.join(demoDir, "tests/filehandling/filehandling.spec.ts"), `import { test } from 'simple-playwright-framework';
 test("upload and download demo", async ({ page, fileUtils }) => {
   await page.goto("https://the-internet.herokuapp.com/upload");
   await fileUtils.uploadFile("#file-upload", "data/ui/sample.txt");
@@ -202,7 +213,7 @@ test('sample API call', async ({ request, envConfig }) => {
 `);
 
 // tests/utils
-writeFileSafe(path.join(demoDir, "tests/utils/fileutils.test.ts"), `import { test } from 'simple-playwright-framework/fixtures';
+writeFileSafe(path.join(demoDir, "tests/utils/fileutils.test.ts"), `import { test } from 'simple-playwright-framework';
 test('use fileUtils directly', async ({ fileUtils }) => {
   const path = await fileUtils.downloadFile("https://example.com/file.txt");
   console.log("Downloaded:", path);

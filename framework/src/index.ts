@@ -7,3 +7,4 @@ export { envConfigFixture } from "./fixtures/envConfig.fixture";
 export { dataFixture } from "./fixtures/data.fixture";
 export { fileFixture } from "./fixtures/file.fixture";
 export { testrailFixture } from "./fixtures/testrail.fixture";
+export type { AuthProvider, AuthStorageConfig } from "./types/auth";
