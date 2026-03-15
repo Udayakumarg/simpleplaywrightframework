@@ -12,7 +12,7 @@ export const dataFixture = {
     let td: any;
     try {
       td = loadTestData(testInfo, envName);
-      console.log("Loaded test data:", td, "Type:", Array.isArray(td) ? "array" : typeof td);
+      //console.log("Loaded test data:", td, "Type:", Array.isArray(td) ? "array" : typeof td);
     } catch (err) {
       console.error(`❌ loadTestData threw for env '${envName}':`, err);
       throw err;

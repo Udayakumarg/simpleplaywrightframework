@@ -2,6 +2,7 @@
 import type { AuthStorageConfig } from "./auth";
 
 export interface EnvConfig {
+  openAiApiKey: string;
   baseUrl: string;
   apiUrl?: string;
   db?: {

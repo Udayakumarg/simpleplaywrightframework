@@ -5,6 +5,7 @@
     "module": "CommonJS",
     "target": "ESNext",
     "strict": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -23,7 +24,9 @@
   },
   "include": [
     "tests/**/*.ts",
-    "auth/**/*.ts"
+    "auth/**/*.ts",
+    "config/**/*.json",
+    "utils/**/*.ts"
   ],
   "exclude": [
     "node_modules",
