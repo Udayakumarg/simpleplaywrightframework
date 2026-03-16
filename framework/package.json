@@ -1,6 +1,6 @@
 {
   "name": "simple-playwright-framework",
-  "version": "0.0.17",
+  "version": "0.0.20",
   "description": "A modular Playwright framework with fixtures, loaders, and demo scaffolding.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

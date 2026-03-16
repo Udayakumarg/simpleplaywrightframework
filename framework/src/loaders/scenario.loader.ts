@@ -1,15 +1,30 @@
-import * as fs from "fs";
+import * as fs   from "fs";
 import * as path from "path";
-import { Scenario } from "../types/scenario"; // central type
+import { Scenario } from "../types/scenario";
 
 export function scenarioLoader(
-  testFile: string,
-  env: string = process.env.TEST_ENV || "qa",
-  tag: string = process.env.SCENARIO_TAG || ""
+  testFile:      string,
+  dataFileName?: string  // ← only argument needed
 ): Scenario[] {
-  // Replace "tests" with "data" and change extension
-  const relPath = testFile.replace("tests", "data").replace(/\.spec\.ts$/, ".json");
-  const scenarioFile = path.resolve(relPath);
+  const env = process.env.TEST_ENV      || "qa";
+  const tag = process.env.SCENARIO_TAG  || "";
+  
+  // ── Resolve data file path ────────────────────────────────────
+  // Default: replace "tests" → "data" and ".spec.ts" → ".json"
+  // Override: if dataFileName provided, keep folder but swap filename
+  let scenarioFile: string;
+
+  if (dataFileName) {
+    const folderPath = testFile
+      .replace("tests", "data")
+      .replace(/[^/\\]+\.spec\.ts$/, "");               // strip filename, keep folder
+    scenarioFile = path.resolve(path.join(folderPath, dataFileName + ".json"));
+  } else {
+    const relPath = testFile
+      .replace("tests", "data")
+      .replace(/\.spec\.ts$/, ".json");
+    scenarioFile = path.resolve(relPath);
+  }
 
   if (!fs.existsSync(scenarioFile)) {
     throw new Error(`❌ Scenario file not found: ${scenarioFile}`);
@@ -29,12 +44,9 @@ export function scenarioLoader(
 
   let scenarios: Scenario[];
 
-  // If top-level is an array, return it directly
   if (Array.isArray(parsed)) {
     scenarios = parsed;
-  }
-  // If top-level is an object keyed by env, return the matching array
-  else if (parsed[env] && Array.isArray(parsed[env])) {
+  } else if (parsed[env] && Array.isArray(parsed[env])) {
     scenarios = parsed[env];
   } else {
     throw new Error(
@@ -42,7 +54,6 @@ export function scenarioLoader(
     );
   }
 
-  // ✅ Strict tag filtering
   if (tag) {
     scenarios = scenarios.filter(sc => sc.tags?.includes(tag));
     if (scenarios.length === 0) {
@@ -51,7 +62,7 @@ export function scenarioLoader(
   }
 
   console.log(
-    `✅ Loaded ${scenarios.length} scenarios [env=${env}${tag ? `, tag=${tag}` : ""}]`
+    `✅ Loaded ${scenarios.length} scenarios [env=${env}${tag ? `, tag=${tag}` : ""}${dataFileName ? `, file=${dataFileName}` : ""}]`
   );
 
   return scenarios;
