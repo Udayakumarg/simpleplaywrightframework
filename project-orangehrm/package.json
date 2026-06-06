@@ -3,19 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "clean": "npx rimraf node_modules package-lock.json dist .cache",
+    "clean": "rimraf node_modules package-lock.json dist .cache playwright-report test-results",
     "reinstall": "npm install",
-    "compile": "tsc -p tsconfig.json",
-    "build": "npm run clean && npm run reinstall && npm run compile",
-    "test": "rimraf playwright-report && playwright test",
+    "compile": "tsc -p tsconfig.json --noEmit",
+    "test":  "rimraf playwright-report && playwright test",
+    "test:smoke": "cross-env SCENARIO_TAG=smoke playwright test",
     "report": "playwright show-report"
   },
   "dependencies": {
-    "@framework/fixtures": "file:../framework"
+    "simple-playwright-framework": "file:../framework"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.2.3",
+    "cross-env": "^7.0.3",
     "rimraf": "^6.1.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",

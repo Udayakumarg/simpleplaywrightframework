@@ -11,30 +11,21 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@framework": [
-        "../framework/src/index.ts"
-      ], // 👈 root index
-      "@framework/*": [
-        "../framework/src/*"
-      ], // optional for subpaths
-      "@project/*": [
-        "./*"
-      ]
+      "simple-playwright-framework": ["../framework/src/index.ts"],
+      "@project/fixtures": ["./fixtures.ts"],
+      "@project/auth": ["./auth/index.ts"],
+      "@project/pages": ["./pages/index.ts"],
+      "@project/*": ["./*"]
     }
   },
   "include": [
     "tests/**/*.ts",
     "auth/**/*.ts",
+    "pages/**/*.ts",
     "config/**/*.json",
-    "utils/**/*.ts"
+    "utils/**/*.ts",
+    "playwright.config.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
-  "references": [
-    {
-      "path": "../framework"
-    }
-  ]
+  "exclude": ["node_modules", "dist"],
+  "references": [{ "path": "../framework" }]
 }

@@ -1,18 +1,13 @@
-/**
- * Looks up a provider class from the registry by name.
- * Throws a clear error if the provider is not registered.
- *
- * Used by both initAuthSession (UI) and initApiAuthSession (API).
- */
+import { Creds } from "../../types/auth";
+
 export function resolveProvider<T>(
   providerName:     string,
-  providerRegistry: Record<string, new (creds: { username: string; password: string }) => T>
-): new (creds: { username: string; password: string }) => T {
+  providerRegistry: Record<string, new (creds: Creds) => T>
+): new (creds: Creds) => T {
   const ProviderClass = providerRegistry[providerName];
   if (!ProviderClass) {
     throw new Error(
-      `[Framework] Unknown auth provider: "${providerName}"\n` +
-      `  Registered providers: ${Object.keys(providerRegistry).join(", ")}`
+      `Unknown auth provider: "${providerName}". Registered: ${Object.keys(providerRegistry).join(", ") || "(none)"}`
     );
   }
   return ProviderClass;

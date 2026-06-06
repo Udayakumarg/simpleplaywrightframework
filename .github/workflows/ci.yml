@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      test_env:
+        description: "Environment slice to read from environments.json"
+        default: "qa"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium]
+    env:
+      TEST_ENV: ${{ github.event.inputs.test_env || 'qa' }}
+      BROWSER:  ${{ matrix.browser }}
+      QA_BASE_URL: ${{ secrets.QA_BASE_URL }}
+      QA_API_URL:  ${{ secrets.QA_API_URL }}
+      ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      EMPLOYEE_USERNAME: ${{ secrets.EMPLOYEE_USERNAME }}
+      EMPLOYEE_PASSWORD: ${{ secrets.EMPLOYEE_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build framework
+        run: npm run build:framework
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+        working-directory: project-orangehrm
+
+      - name: Typecheck
+        run: npm run compile --workspace project-orangehrm
+
+      - name: Run tests
+        run: npm test --workspace project-orangehrm
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.browser }}
+          path: project-orangehrm/playwright-report
+          retention-days: 7

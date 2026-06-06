@@ -21,6 +21,7 @@ trace.zip
 # Environment / secrets
 .env
 .env.*
+!.env.example
 *.local
 
 # OS / Editor junk
@@ -38,3 +39,14 @@ coverage/
 logs/
 *.log
 .cache/
+
+# Auth storage (session cookies / tokens — NEVER commit)
+storage/
+**/storage/*.json
+
+# Packed npm artifacts
+*.tgz
+
+# Allure
+allure-results/
+allure-report/

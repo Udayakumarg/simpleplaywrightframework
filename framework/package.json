@@ -1,16 +1,14 @@
 {
   "name": "simple-playwright-framework",
-  "version": "0.0.21",
-  "description": "A modular Playwright framework with fixtures, loaders, and demo scaffolding.",
+  "version": "0.1.0",
+  "description": "Opinionated Playwright framework: env-aware config, scenario data loaders, pluggable auth providers with session caching, Page Object base, TestRail integration.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "rimraf node_modules package-lock.json dist .cache",
-    "reinstall": "npm install",
+    "clean": "rimraf dist .cache tsconfig.tsbuildinfo",
     "compile": "tsc -p tsconfig.json",
-    "build": "npm run clean && npm run reinstall && npm run compile",
-    "test": "rimraf playwright-report && playwright test",
-    "report": "playwright show-report"
+    "build": "npm run clean && npm run compile",
+    "prepack": "npm run build"
   },
   "bin": {
     "init-framework-project": "scripts/init-framework-project.js",
@@ -20,7 +18,9 @@
   "files": [
     "dist/**/*",
     "scripts/init-framework-project.js",
-    "scripts/init-demo-project.js"
+    "scripts/init-demo-project.js",
+    "scripts/init-nexus.js",
+    "README.md"
   ],
   "keywords": [
     "playwright",
@@ -28,20 +28,26 @@
     "testing",
     "automation",
     "fixtures",
-    "typescript"
+    "typescript",
+    "page-object-model",
+    "scenario-driven"
   ],
   "author": "Udayakumar",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Udayakumarg/simpleplaywrightframework"
+  },
+  "peerDependencies": {
+    "@playwright/test": ">=1.40.0"
+  },
   "dependencies": {
-    "@framework/fixtures": "file:../framework"
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.2.3",
-    "node-fetch": "^2.7.0",
     "rimraf": "^6.1.2",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3"
   }
 }

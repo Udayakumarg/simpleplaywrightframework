@@ -1,30 +1,47 @@
-// framework/src/loaders/envConfig.loader.ts
 import fs from "fs";
 import path from "path";
 import type { EnvConfig } from "../types/env";
+import { resolveEnv } from "../utils/env";
+import { interpolate, loadDotenv } from "../utils/dotenv";
 
+let cached: EnvConfig | null = null;
 
-export function loadConfig(): EnvConfig {
+export function loadConfig(force = false): EnvConfig {
+  if (cached && !force) return cached;
+
+  loadDotenv();
+
   const configPath = path.join(process.cwd(), "config", "environments.json");
   if (!fs.existsSync(configPath)) {
-    throw new Error(`❌ environments.json not found at ${configPath}`);
+    throw new Error(`environments.json not found at ${configPath}`);
   }
 
-  const raw = fs.readFileSync(configPath, "utf-8");
-  const allConfig = JSON.parse(raw);
+  let raw: string;
+  let parsed: any;
+  try {
+    raw = fs.readFileSync(configPath, "utf-8");
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    throw new Error(`Failed to read/parse ${configPath}: ${(e as Error).message}`);
+  }
 
-  const envName = process.env.TEST_ENV || "qa";
-  const defaults = allConfig.defaults || {};
-  const envConfig = allConfig[envName]; // ✅ flat lookup
+  const envName = resolveEnv();
+  const defaults = parsed.defaults || {};
+  const envSlice = parsed[envName];
 
-  if (!envConfig) {
+  if (!envSlice) {
     throw new Error(
-      `❌ Environment '${envName}' not defined in environments.json`,
+      `Environment '${envName}' not defined in environments.json. Available: ${Object.keys(parsed).filter(k => k !== "defaults").join(", ")}`
     );
   }
-  if (!envConfig.baseUrl) {
-    throw new Error(`❌ Environment '${envName}' missing baseUrl`);
+
+  const merged = interpolate<EnvConfig>({ ...defaults, ...envSlice });
+
+  if (!merged.baseUrl) {
+    throw new Error(`Environment '${envName}' missing required baseUrl`);
   }
 
-  return { ...defaults, ...envConfig };
+  cached = merged;
+  return merged;
 }
+

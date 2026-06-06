@@ -2,51 +2,22 @@
   "defaults": {
     "timeout": 30000,
     "retries": 1,
-    "autoLaunch": false
+    "workers": 2,
+    "headless": false
   },
   "dev": {
-    "baseUrl": "https://dev.orangehrm.example.com",
-    "apiUrl": "https://dev.orangehrm.example.com/api",
-    "db": {
-      "host": "dev-db.example.com",
-      "port": 5432,
-      "user": "dev_user",
-      "password": "dev_pass"
-    },
-    "authStorage": {
-      "enabled": true,
-      "validityMinutes": 30,
-      "provider": "OrangeHRMLogin"
-    }
+    "baseUrl": "${DEV_BASE_URL}",
+    "apiUrl":  "${DEV_API_URL}",
+    "authStorage": { "enabled": true, "validityMinutes": 30, "provider": "OrangeHRMLogin" }
   },
   "qa": {
-    "baseUrl": "https://qa.orangehrm.example.com",
-    "apiUrl": "https://qa.orangehrm.example.com/api",
-    "db": {
-      "host": "qa-db.example.com",
-      "port": 5432,
-      "user": "qa_user",
-      "password": "qa_pass"
-    },
-    "authStorage": {
-      "enabled": true,
-      "validityMinutes": 30,
-      "provider": "OrangeHRMLogin"
-    }
+    "baseUrl": "${QA_BASE_URL}",
+    "apiUrl":  "${QA_API_URL}",
+    "authStorage": { "enabled": true, "validityMinutes": 30, "provider": "OrangeHRMLogin" }
   },
   "prod": {
-    "baseUrl": "https://opensource-demo.orangehrmlive.com/",
-    "apiUrl": "https://nexus-ai-wn4h.onrender.com",
-    "db": {
-      "host": "prod-db.example.com",
-      "port": 5432,
-      "user": "prod_user",
-      "password": "prod_pass"
-    },
-    "authStorage": {
-      "enabled": true,
-      "validityMinutes": 30,
-      "provider": "OrangeHRMLogin"
-    }
+    "baseUrl": "${PROD_BASE_URL}",
+    "apiUrl":  "${PROD_API_URL}",
+    "authStorage": { "enabled": true, "validityMinutes": 30, "provider": "OrangeHRMLogin" }
   }
 }

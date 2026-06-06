@@ -1,19 +1,13 @@
-import { test, expect } from "@framework";
+import { test, expect } from "@project/fixtures";
 
-test("login with valid Admin user @smoke @dryrun", async ({ page, envConfig, td }) => {
-  console.log("Base URL is", envConfig.baseUrl);
+test("login as admin @smoke", async ({ page, envConfig, td, loginPage, dashboardPage }) => {
   await page.goto(envConfig.baseUrl);
-  await page.fill('input[name="username"]', td.users.admin.username);
-  await page.fill('input[name="password"]', td.users.admin.password);
-  await page.click('button[type="submit"]');
-  await expect(page).toHaveURL(/dashboard/);
+  await loginPage.signIn(td.users.admin.username, td.users.admin.password);
+  await dashboardPage.expectLoaded();
 });
 
-
-test.skip("login with valid Employee user", async ({ page, envConfig, td }) => {
+test.skip("login as employee", async ({ page, envConfig, td, loginPage, dashboardPage }) => {
   await page.goto(envConfig.baseUrl);
-  await page.fill('input[name="username"]', td.users.employee.username);
-  await page.fill('input[name="password"]', td.users.employee.password);
-  await page.click('button[type="submit"]');
-  await expect(page).toHaveURL(/dashboard/);
+  await loginPage.signIn(td.users.employee.username, td.users.employee.password);
+  await dashboardPage.expectLoaded();
 });

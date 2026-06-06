@@ -1,47 +1,72 @@
-# 🚀 Simple Playwright Framework
+# PlaywrightFramework
 
-A modular, TypeScript‑based Playwright automation framework designed for  
-**data‑driven testing**, **environment configuration management**, and **scenario‑based execution**.
+Monorepo housing the [**`simple-playwright-framework`**](framework/) library and an example consumer ([`project-orangehrm`](project-orangehrm/)).
 
-## 🏗️ Architecture
+## Layout
 
-- 📦 **Monorepo with npm workspaces**
-  - `framework` → Core reusable modules (fixtures, loaders, utilities).
-  - `project-orangehrm` → Example project consuming the framework.
+```
+.
+├── framework/             # The published package (src/, scripts/, README)
+├── project-orangehrm/     # Demo consumer: env-aware config, POM, auth providers
+├── .github/workflows/     # CI pipeline
+└── docs/                  # Topical guides
+```
 
-- 🧩 **Fixtures (`test.extend`)**
-  - `envConfigFixture` → Injects environment config (`environments.json`) into tests.
-  - `dataFixture` → Loads test data dynamically based on environment and test file.
+## Architecture at a glance
 
-- ⚙️ **Loaders**
-  - `data.loader.ts` → Resolves environment‑specific JSON test data.
-  - `envConfig.loader.ts` → Strongly typed environment configuration loader.
-  - `scenario.loader.ts` → Enables scenario‑driven test execution from JSON arrays/objects.
+- **`defineFrameworkConfig`** — wraps Playwright's `defineConfig`. Loads `.env`, reads `config/environments.json`, applies `defaults` (timeout/retries/workers/headless), emits one project per browser × env.
+- **`envConfigFixture`** — injects the resolved `EnvConfig` into every test.
+- **`dataFixture` (`td`) + `scenarioLoader`** — `tests/foo/bar.spec.ts` ⇄ `data/foo/bar.json`. JSON is keyed by env; `${VAR}` placeholders are resolved against `process.env`. Scenarios can be filtered by `SCENARIO_TAG`.
+- **`projectConfigFixture` (`pc`)** — env-agnostic constants from `config/projectConfig.json`.
+- **Auth providers** — implement `AuthProvider` (UI) or `ApiAuthProvider` (API). Register in a `providerRegistry`. `initAuthSession`/`initApiAuthSession` handle caching with per-provider `capture`/`restore` hooks.
+- **Page Object Model** — `BasePage` parent, project-defined POMs, exposed as fixtures via `test.extend`.
+- **`FileUtils`** — upload/download helpers as a fixture.
+- **`TestRailClient`** — thin wrapper using Playwright's `APIRequestContext`.
 
-## 🔄 Scenario‑Driven Tests (Technical)
-
-- JSON defines login scenarios (`login.scenarios.json`).  
-- Tests iterate over scenarios using `test.describe.parallel`, enabling concurrent execution.  
-- Supports multiple environments (`dev`, `qa`, `prod`) with environment‑specific data.
-
-### 🗣️ In Simple Words
-Instead of writing 10 login tests, you just list usernames/passwords in a JSON file.  
-The framework loops through them and runs each automatically.  
-Adding new cases = editing data, not writing new code.
-
----
-
-## 🛠️ Commands (Technical)
+## Getting started (consumer)
 
 ```bash
-# 📥 Install dependencies
-npm install
+npm install --save-dev @playwright/test simple-playwright-framework
+npx playwright install
 
-# 🏗️ Build framework
-npm run build:framework
+# Scaffold a demo
+npx init-demo-project
 
-# 🧪 Run tests in project-orangehrm
-npm run test
+# Configure secrets
+cp .env.example .env
+# fill in URLs and credentials
 
-# 📊 Show HTML report
-npm run report
+# Run
+npx playwright test
+```
+
+## Developing on this repo
+
+```bash
+npm install                # installs all workspaces
+npm run build:framework    # compile framework to dist/
+npm test                   # runs the orangehrm tests
+npm run lint
+npm run typecheck
+```
+
+## Environment variables
+
+| Variable                 | Purpose                                         |
+| ------------------------ | ----------------------------------------------- |
+| `TEST_ENV`               | Slice of `environments.json` to read (default `qa`) |
+| `BROWSER`                | Narrow browsers (overrides `defineFrameworkConfig`)  |
+| `SCENARIO_TAG`           | Filter scenarios returned by `scenarioLoader`        |
+| `FRAMEWORK_DEBUG`        | Enable `log.debug(...)` output                       |
+| `FRAMEWORK_STORAGE_DIR`  | Override the auth-storage directory                  |
+| `TESTRAIL_URL/USER/APIKEY` | TestRail credentials (optional)                    |
+
+## Further reading
+
+- [Auth providers and session caching](docs/auth.md)
+- [Scenario-driven tests](docs/scenarios.md)
+- [Page Object Model](docs/pom.md)
+
+## License
+
+MIT

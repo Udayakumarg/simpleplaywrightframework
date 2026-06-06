@@ -1,160 +1,159 @@
-📥 Single‑click Copyable README
-markdown
 # simple-playwright-framework
 
-![npm version](https://img.shields.io/npm/v/simple-playwright-framework)  
-![npm downloads](https://img.shields.io/npm/dm/simple-playwright-framework)  
-![license](https://img.shields.io/npm/l/simple-playwright-framework)  
-![node](https://img.shields.io/node/v/simple-playwright-framework)  
-![playwright](https://img.shields.io/badge/Playwright-supported-45ba63?logo=playwright)  
-![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)
+[![npm version](https://img.shields.io/npm/v/simple-playwright-framework)](https://www.npmjs.com/package/simple-playwright-framework)
+[![license](https://img.shields.io/npm/l/simple-playwright-framework)](LICENSE)
+![playwright](https://img.shields.io/badge/Playwright-supported-45ba63?logo=playwright)
 
-A lightweight, modular automation framework built on top of **Microsoft Playwright**.  
-It helps teams quickly bootstrap scalable UI and API test automation projects with **clean architecture, reusable fixtures, and ergonomic onboarding**.
+A lightweight, opinionated automation framework built on top of [Microsoft Playwright](https://playwright.dev).
+Helps teams ship UI and API automation projects fast with reusable fixtures, env-aware configuration, a pluggable auth-provider registry, scenario-driven tests, and first-class TypeScript.
 
-Repository: [GitHub](https://github.com/Udayakumarg/simpleplaywrightframework)
+Repository: <https://github.com/Udayakumarg/simpleplaywrightframework>
 
 ---
 
-## ✨ Key Features
+## Why this framework
 
-- **Playwright-powered automation** for browsers and APIs  
-- **Custom fixtures** for authentication, storage state, and reusable contexts  
-- **Scenario loader** for environment‑driven test data (JSON or API/DB integration)  
-- **Provider registry** for flexible login flows (username, email, or custom auth)  
-- **Environment-aware configuration** with safe defaults (`prod` fallback)  
-- **Reusable helpers** for file upload/download, iframe handling, and API clients  
-- **Modern reporting** with Playwright HTML, Allure, and TestRail integration  
-- **CLI scaffolding** to generate demo projects with recommended structure  
-- **CI/CD ready** with parallel safety and isolated test state  
-- **Extensible design**: plug in your own providers, loaders, or reporters
+| Concern | What you get |
+| --- | --- |
+| Environments (`dev` / `qa` / `prod`) | `EnvConfig` loader with safe merging of `defaults` |
+| Secrets | `.env` interpolation in `environments.json` — never commit credentials |
+| Test data | `tests/foo.spec.ts` ⇄ `data/foo.json` convention, env-keyed |
+| Auth | Provider registry + storage-state caching (cookie OR token) |
+| Pages | Built-in `BasePage` and `pageObjectFixture` |
+| Reporting | Playwright HTML, optional Allure, optional TestRail |
+| Cross-browser | One config, all three engines via projects |
+| CI | GitHub Actions example, parallel-safe by default |
 
 ---
 
-## 📦 Installation
+## Install
 
-### 1. Install Playwright
 ```bash
-npm install --save-dev @playwright/test playwright
-2. Install the framework
-bash
-npm install simple-playwright-framework
-🚀 Create a Demo Project
-Use the CLI to scaffold a ready‑to‑run project:
+npm install --save-dev @playwright/test simple-playwright-framework
+npx playwright install
+```
 
-bash
+## Scaffold a project
+
+```bash
 npx init-demo-project
-This generates a demo project with fixtures, config, and sample tests.
-
-▶️ Run Tests
-Navigate into the generated project:
-
-bash
 cd demo-project
-npx playwright test
-Run with Playwright UI runner:
+npm test
+```
 
-bash
-npx playwright test --ui
-🧪 Example Test
-ts
-import { test, expect } from '@playwright/test';
-import { scenarioLoader } from 'simple-playwright-framework';
+The scaffolder lays down `tests/`, `pages/`, `data/`, `auth/`, `config/`, and a working `playwright.config.ts`.
 
-test('login works', async ({ page }) => {
-  const data = scenarioLoader(__filename).get("validLogin");
-  await page.goto(data.baseUrl);
-  await page.fill('#username', data.username);
-  await page.fill('#password', data.password);
-  await page.click('#login');
-  await expect(page).toHaveURL(/dashboard/);
+## Minimal test
+
+```ts
+import { test, expect, scenarioLoader } from "simple-playwright-framework";
+import { providerRegistry } from "../auth";
+
+const scenarios = scenarioLoader(__filename);
+
+test.describe.parallel("Login", () => {
+  for (const sc of scenarios) {
+    test(sc.name, async ({ page, envConfig, loginPage }) => {
+      await page.goto(envConfig.baseUrl);
+      await loginPage.signIn(sc.username, sc.password);
+      if (sc.expected === "success") {
+        await expect(page).toHaveURL(/dashboard/);
+      } else {
+        await expect(loginPage.errorAlert).toBeVisible();
+      }
+    });
+  }
 });
-📂 Project Structure
-Example demo project:
+```
 
-Code
-demo-project
-│
-├── tests
-│   └── login.spec.ts
-│
-├── pages
-│   └── login.page.ts
-│
-├── utils
-│   └── apiClient.ts
-│
-├── config
-│   └── environments.ts
-│
-├── auth
-│   └── storageState.json
-│
-└── playwright.config.ts
-🌍 Environment Configuration
-ts
-export const environments = {
-  dev: { baseUrl: "https://dev.example.com" },
-  qa:  { baseUrl: "https://qa.example.com" },
-  prod:{ baseUrl: "https://prod.example.com" }
-};
-Run against different environments without changing test logic.
+## Configuration
 
-📊 Reporting
-Supports:
+`config/environments.json`
 
-Playwright HTML reports
+```json
+{
+  "defaults": { "timeout": 30000, "retries": 1 },
+  "qa":   { "baseUrl": "${QA_BASE_URL}",   "apiUrl": "${QA_API_URL}" },
+  "prod": { "baseUrl": "${PROD_BASE_URL}", "apiUrl": "${PROD_API_URL}" }
+}
+```
 
-Allure reports
+`.env`
 
-TestRail integration
+```bash
+QA_BASE_URL=https://qa.example.com
+QA_API_URL=https://qa.example.com/api
+```
 
-Generate Playwright report:
+`playwright.config.ts`
 
-bash
-npx playwright show-report
-🛠 Challenges & Solutions
-Compiled JS confusion → moved output to dist and enforced root‑level exports
+```ts
+import { defineFrameworkConfig } from "simple-playwright-framework";
 
-Demo projects bypassing fixtures → documented imports from framework only
+export default defineFrameworkConfig({
+  browsers: ["chromium"],
+});
+```
 
-Scenario injection limits → iterated scenarios in test bodies, reporting adapted
+## Run
 
-Environment defaults missing → added safe fallback (prod)
+```bash
+# Pick an environment
+TEST_ENV=qa npx playwright test
 
-Dependency resolution issues → onboarding scripts install required packages
+# Filter scenarios by tag (works with scenarioLoader)
+SCENARIO_TAG=smoke npx playwright test
 
-Report formatting limitations → modernized with inline CSS and branded colors
+# Pick a browser
+BROWSER=firefox npx playwright test
+```
 
-Auth provider rigidity → introduced provider registry for flexible login flows
+## API surface
 
-Parallel safety concerns → kept state test‑scoped, avoided global mutation
+```ts
+import {
+  test, expect,                         // re-exported with framework fixtures
+  defineFrameworkConfig,                // wraps Playwright defineConfig
+  scenarioLoader, loadConfig,           // data + env loaders
+  initAuthSession, initApiAuthSession,  // auth session helpers
+  FileUtils,                            // upload/download utilities
+  log,                                  // [Framework] prefixed logger
+  type AuthProvider, type ApiAuthProvider, type AuthStorageConfig,
+  type EnvConfig, type Scenario,
+} from "simple-playwright-framework";
+```
 
-Demo project scaffolding risks → added warnings and safe file writes
+## Authentication providers
 
-🤝 Contributing
-Contributions are welcome.
+```ts
+// auth/orangehrm.login.ts
+import { Page } from "@playwright/test";
+import { AuthProvider } from "simple-playwright-framework";
 
-Fork the repository
+export class OrangeHRMLogin implements AuthProvider {
+  constructor(private creds: { username: string; password: string }) {}
+  async login(page: Page) {
+    await page.fill("input[name='username']", this.creds.username);
+    await page.fill("input[name='password']", this.creds.password);
+    await page.click("button[type='submit']");
+    await page.waitForURL("**/dashboard/**");
+  }
+}
 
-Create a feature branch
+// auth/index.ts
+export const providerRegistry = { OrangeHRMLogin };
+```
 
-Commit your changes
+Providers can opt in to **storage caching** via `envConfig.authStorage`:
 
-Submit a pull request
+```json
+"authStorage": { "enabled": true, "validityMinutes": 30, "provider": "OrangeHRMLogin" }
+```
 
-Please ensure that code changes include appropriate tests and follow existing coding conventions.
+A valid session is restored from `storage/<provider>-<env>-<user>-auth.json`; expired sessions trigger a fresh login.
 
-📜 License
-MIT License
+> `storage/` is gitignored by default. Never commit session cookies or tokens.
 
-👤 Author
-Developed by Udayakumar  
-GitHub: https://github.com/Udayakumarg
+## License
 
-Code
-
----
-
-👉 Just copy everything above into a file named `README.md` in your repo.  
-If you’d like, I can also prepare a **shorter npm landing page version** (featur
+MIT — Udayakumar

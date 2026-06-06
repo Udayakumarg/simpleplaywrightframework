@@ -1,17 +1,16 @@
-// project-orangehrm/tests/login.testrail.spec.ts
-import { test, expect } from "@framework";
+import { test } from "@project/fixtures";
 
-test.skip("Login scenario linked to TestRail case C1234", async ({ page, envConfig, testrail }) => {
+test.skip("Login linked to TestRail case C1234", async ({
+  page, envConfig, td, loginPage, dashboardPage, testrail,
+}) => {
   await page.goto(envConfig.baseUrl);
-  await page.fill('input[name="username"]', 'Admin');
-  await page.fill('input[name="password"]', 'admin123');
-  await page.click('button[type="submit"]');
+  await loginPage.signIn(td.users.admin.username, td.users.admin.password);
 
   try {
-    await expect(page).toHaveURL(/dashboard/);
-    await testrail.addResult(1234, 1, "Login passed ✅"); // status_id 1 = Passed
+    await dashboardPage.expectLoaded();
+    await testrail.addResult(1234, 1, "Login passed");
   } catch (err) {
-    await testrail.addResult(1234, 5, "Login failed ❌"); // status_id 5 = Failed
+    await testrail.addResult(1234, 5, `Login failed: ${(err as Error).message}`);
     throw err;
   }
 });
