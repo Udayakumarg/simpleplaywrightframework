@@ -1,28 +1,5 @@
 {
-  "dev": {
-    "users": {
-      "admin": { "username": "admin_dev", "password": "admin123" },
-      "employee": { "username": "admin_dev", "password": "admin123" }
-    }
-  },
-  "qa": {
-    "users": {
-      "admin": { "username": "admin_qa", "password": "admin123" },
-      "employee": { "username": "emp_qa", "password": "emp123" }
-    }
-  },
-  "stage": {
-    "users": {
-      "admin": { "username": "admin_stage", "password": "admin123" },
-      "employee": { "username": "emp_stage", "password": "emp123" }
-    }
-  },
-  "prod": {
-    "users": {
-      "admin": { "username": "Admin", "password": "admin123" },
-      "employee": { "username": "Admin", "password": "admin123" },
-      "locked": { "username": "LockedUser", "password": "locked123" },
-      "problem": { "username": "ProblemUser", "password": "problem123" }
-    }
-  }
+  "dev":  { "users": { "admin": { "username": "${ADMIN_USERNAME}", "password": "${ADMIN_PASSWORD}" } } },
+  "qa":   { "users": { "admin": { "username": "${ADMIN_USERNAME}", "password": "${ADMIN_PASSWORD}" } } },
+  "prod": { "users": { "admin": { "username": "${ADMIN_USERNAME}", "password": "${ADMIN_PASSWORD}" } } }
 }

@@ -1,25 +1,26 @@
-import { test, expect, scenarioLoader, initAuthSession } from "@framework";
-import { providerRegistry } from "@project/auth"; // project registry
+import { test } from "@project/fixtures";
+import { scenarioLoader, initAuthSession } from "simple-playwright-framework";
+import { providerRegistry } from "@project/auth";
 
 const scenarios = scenarioLoader(__filename);
 
 test.describe.parallel("Login scenarios", () => {
   for (const sc of scenarios) {
-    const tags = (sc.tags ?? []).map((t) => `@${t}`).join(" ");
-    test(`Scenario: ${sc.name} ${tags}`, async ({ page, envConfig }) => {
+    const tagSuffix = (sc.tags ?? []).map((t: string) => `@${t}`).join(" ");
+    test(`${sc.name} ${tagSuffix}`.trim(), async ({ page, envConfig, loginPage, dashboardPage }) => {
       await page.goto(envConfig.baseUrl);
 
       await initAuthSession(
         page,
-        envConfig.authStorage!,
+        envConfig.authStorage,
         { username: sc.username, password: sc.password },
-        providerRegistry,
+        providerRegistry
       );
 
       if (sc.expected === "success") {
-        await expect(page).toHaveURL(/.*dashboard.*/);
+        await dashboardPage.expectLoaded();
       } else {
-        await expect(page.locator(".oxd-alert-content")).toBeVisible();
+        await loginPage.expectLoginFailed();
       }
     });
   }

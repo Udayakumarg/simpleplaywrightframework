@@ -2,60 +2,40 @@ import fs from "fs";
 import path from "path";
 import { TestInfo } from "@playwright/test";
 
+const TEST_SUFFIX = /\.(spec|test)\.ts$/;
+
 /**
  * Loads environment-specific test data for a given test file.
- * - Resolves JSON file path based on test file location
- * - Validates existence, non-empty content, and JSON format
- * - Returns environment-specific slice of data
+ * Path convention: tests/foo/bar.spec.ts  →  data/foo/bar.json
+ * The JSON top-level keys are environment names; the matching slice is returned.
  */
-export function loadTestData(testInfo: TestInfo, envName: string): any {
+export function loadTestData<T = any>(testInfo: TestInfo, envName: string): T {
   const projectRoot = process.cwd();
-
-  // Derive relative path from tests/ to the current test file
   const rel = path.relative(path.join(projectRoot, "tests"), testInfo.file);
-
-  // Strip .spec.ts / .test.ts suffix
-  const fileBase = path.basename(rel)
-    .replace(/\.spec\.ts$/, "")
-    .replace(/\.test\.ts$/, "");
-
+  const fileBase = path.basename(rel).replace(TEST_SUFFIX, "");
   const dir = path.dirname(rel);
-
-  // Construct data file path
   const dataPath = path.join(projectRoot, "data", dir, `${fileBase}.json`);
 
-  // Validate existence
   if (!fs.existsSync(dataPath)) {
-    throw new Error(
-      `\n❌ Test data file not found for test: ${fileBase}\nPath: ${dataPath}`
-    );
+    throw new Error(`Test data file not found for ${fileBase}\n  expected: ${dataPath}`);
   }
 
-  // Validate non-empty
   const raw = fs.readFileSync(dataPath, "utf-8").trim();
   if (!raw) {
-    throw new Error(
-      `\n❌ Test data file is empty for test: ${fileBase}\nPath: ${dataPath}`
-    );
+    throw new Error(`Test data file is empty: ${dataPath}`);
   }
 
-  // Parse JSON
   let parsed: any;
   try {
     parsed = JSON.parse(raw);
-  } catch {
+  } catch (e) {
+    throw new Error(`Invalid JSON in test data: ${dataPath}\n  ${(e as Error).message}`);
+  }
+
+  if (parsed[envName] === undefined) {
     throw new Error(
-      `\n❌ Invalid JSON format in test data for: ${fileBase}\nPath: ${dataPath}`
+      `Test data has no entry for env "${envName}" in ${dataPath}\n  available: ${Object.keys(parsed).join(", ")}`
     );
   }
-
-  // Return environment-specific slice
-  if (parsed[envName]) {
-    return parsed[envName];
-  }else{
-     throw new Error(
-      `\n❌ Data is not available for Execution Environment ${envName} in test data for: ${fileBase}\nPath: ${dataPath}`
-    );
-  }
-
+  return parsed[envName];
 }

@@ -1,12 +1,8 @@
 import { Page } from "@playwright/test";
-import { AuthProvider } from "@framework/fixtures/src/types/auth"; // framework contract
+import { AuthProvider, Creds } from "simple-playwright-framework";
 
 export class OrangeHRMLogin implements AuthProvider {
-  private creds: { username: string; password: string };
-
-  constructor(creds: { username: string; password: string }) {
-    this.creds = creds;
-  }
+  constructor(private creds: Creds) {}
 
   async login(page: Page): Promise<void> {
     await page.fill("input[name='username']", this.creds.username);

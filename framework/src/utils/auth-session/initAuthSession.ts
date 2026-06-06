@@ -1,71 +1,60 @@
-import fs   from "fs";
+import fs from "fs";
 import { Page } from "@playwright/test";
-import { AuthProvider, AuthStorageConfig } from "../../types/auth";
+import { AuthProvider, AuthStorageConfig, Creds, ProviderRegistry } from "../../types/auth";
 import { getStoragePath }   from "./storagePath";
 import { isAuthStoreValid } from "./validateStore";
 import { resolveProvider }  from "./resolveProvider";
 import { restoreSession }   from "./restoreSession";
+import { resolveEnv } from "../env";
+import { log } from "../../logger";
 
 /**
- * Manages UI authentication with optional session storage.
+ * Manages UI authentication with optional storage-state caching.
  *
- * Flow:
- *   1. If storage disabled → login directly, no caching
- *   2. If valid stored session exists → restore it, skip login
- *   3. If no valid session → perform fresh login, save session
+ *   1. authStorage disabled       → login directly, no caching
+ *   2. valid cached session       → restore + skip login
+ *   3. no/expired cached session  → fresh login + save
  *
- * Supports both localStorage token apps (Nexus) and cookie-based apps.
+ * Providers may implement `capture`/`restore` for custom state (e.g. tokens
+ * in localStorage under non-standard keys); otherwise Playwright's native
+ * `context.storageState()` is used.
  */
 export async function initAuthSession(
   page:             Page,
   authStorage:      AuthStorageConfig | undefined,
-  creds:            { username: string; password: string },
-  providerRegistry: Record<string, new (creds: { username: string; password: string }) => AuthProvider>
+  creds:            Creds,
+  providerRegistry: ProviderRegistry<AuthProvider>
 ): Promise<void> {
+  const providerName = authStorage?.provider ?? "default";
+  const ProviderClass = resolveProvider(providerName, providerRegistry);
+  const provider = new ProviderClass(creds);
 
-  const ProviderClass  = resolveProvider(authStorage?.provider ?? "default", providerRegistry);
-  const authProvider   = new ProviderClass(creds);
-
-  // ── Storage disabled → login directly ────────────────────────
   if (!authStorage?.enabled) {
-    console.log("[Framework] Auth storage disabled — performing direct login");
-    await authProvider.login(page);
+    log.debug("auth storage disabled — direct login");
+    await provider.login(page);
     return;
   }
 
-  const { validityMinutes, provider } = authStorage;
-  const envName     = process.env.TEST_ENV || "default";
-  const storagePath = getStoragePath(provider, envName, creds.username);
+  const { validityMinutes } = authStorage;
+  const storagePath = getStoragePath(providerName, resolveEnv(), creds.username);
 
-  // ── Valid session exists → restore it ────────────────────────
   if (isAuthStoreValid(storagePath, validityMinutes)) {
-    console.log(`[Framework] Restoring valid auth store: ${storagePath}`);
-    await restoreSession(page, storagePath);
-    console.log(`[Framework] ✅ Session restored from storage`);
+    log.info(`restoring auth store: ${storagePath}`);
+    await restoreSession(page, storagePath, provider);
     return;
   }
 
-  // ── No valid session → fresh login + save ────────────────────
-  console.log("[Framework] Performing fresh login...");
-  await authProvider.login(page);
+  log.info(`performing fresh login for ${creds.username}`);
+  await provider.login(page);
 
-  // Save token + user from localStorage if present (token-based apps)
-  const saved = await page.evaluate(() => ({
-    token: localStorage.getItem("token"),
-    user:  localStorage.getItem("user"),
-  }));
-
-  if (saved.token) {
-    // Token-based app — save token + user
-    fs.writeFileSync(storagePath, JSON.stringify({
-      token:   saved.token,
-      user:    saved.user ? JSON.parse(saved.user) : null,
-      savedAt: Date.now(),
-    }, null, 2));
+  if (provider.capture) {
+    const state = await provider.capture(page);
+    fs.writeFileSync(
+      storagePath,
+      JSON.stringify({ custom: state, savedAt: Date.now() }, null, 2)
+    );
   } else {
-    // Cookie-based app — save full Playwright storageState
     await page.context().storageState({ path: storagePath });
   }
-
-  console.log(`[Framework] New auth store created: ${storagePath}`);
+  log.info(`auth store saved: ${storagePath}`);
 }

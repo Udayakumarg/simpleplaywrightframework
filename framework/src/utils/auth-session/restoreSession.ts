@@ -1,36 +1,35 @@
-import fs   from "fs";
+import fs from "fs";
 import { Page } from "@playwright/test";
+import { AuthProvider } from "../../types/auth";
 
 /**
- * Restores a saved auth session into the browser page.
+ * Restores a saved auth session into the page.
  *
- * Supports two formats:
- *
- * 1. localStorage token format: { token, user }
- *    Injects token and user into localStorage via addInitScript
- *    so they are available before the page loads.
- *
- * 2. Playwright storageState (cookies/origins):
- *    Restores cookies via addCookies — for cookie-based apps.
+ *   { custom, savedAt }       → provider.restore(page, custom)
+ *   { cookies, origins, ... } → Playwright storageState (cookies + localStorage origins)
  */
 export async function restoreSession(
   page:        Page,
-  storagePath: string
+  storagePath: string,
+  provider:    AuthProvider
 ): Promise<void> {
-  const raw   = fs.readFileSync(storagePath, "utf-8").trim();
+  const raw = fs.readFileSync(storagePath, "utf-8").trim();
   const state = JSON.parse(raw);
 
-  // ── localStorage token format (Nexus and token-based apps) ───
-  if (state.token) {
-    await page.addInitScript((saved) => {
-      localStorage.setItem("token", saved.token);
-      if (saved.user) localStorage.setItem("user", JSON.stringify(saved.user));
-    }, { token: state.token, user: state.user ?? null });
+  if (state.custom !== undefined && provider.restore) {
+    await provider.restore(page, state.custom);
     return;
   }
 
-  // ── Playwright cookie-based storageState ─────────────────────
-  if (state.cookies?.length > 0) {
+  if (Array.isArray(state.cookies) && state.cookies.length > 0) {
     await page.context().addCookies(state.cookies);
+  }
+  if (Array.isArray(state.origins)) {
+    for (const origin of state.origins) {
+      if (!origin.localStorage?.length) continue;
+      await page.addInitScript((items: Array<{ name: string; value: string }>) => {
+        for (const it of items) localStorage.setItem(it.name, it.value);
+      }, origin.localStorage);
+    }
   }
 }
